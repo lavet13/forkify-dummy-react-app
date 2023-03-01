@@ -2,9 +2,21 @@ import './Results.scss';
 
 import Preview from '../UI/Preview';
 
-function Results() {
+function Results({ onSaveIdPreview, page }) {
+    console.log(page);
+
+    const previewLinkHandler = e => {
+        e.preventDefault();
+        const link = e.target.closest('.preview__link');
+        if (!link) return;
+
+        onSaveIdPreview(
+            decodeURIComponent(link.getAttribute('href').split('=')[1])
+        );
+    };
+
     return (
-        <div className="results">
+        <div onClick={previewLinkHandler} className="results">
             <Preview />
         </div>
     );

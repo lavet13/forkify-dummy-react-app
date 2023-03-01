@@ -4,7 +4,7 @@ import icons from '../../resources/icons.svg';
 
 import Button from '../UI/Button';
 
-function SearchForm() {
+function SearchForm({ onSaveSearchData }) {
     const iconSearch = `${icons}#icon-search`;
 
     const [enteredSearchField, setEnteredSearchField] = useState('');
@@ -18,8 +18,7 @@ function SearchForm() {
 
         setEnteredSearchField('');
 
-        const query = { search: enteredSearchField };
-        console.log(query);
+        onSaveSearchData({ search: enteredSearchField });
     };
 
     return (

@@ -7,7 +7,7 @@ function Preview() {
 
     return (
         <li className="preview">
-            <a className="preview__link" href="#23456">
+            <a className="preview__link" href="?id=23456">
                 <figure className="preview__fig">
                     {/* <img src="src/img/test-1.jpg" alt="Test" /> */}
                 </figure>

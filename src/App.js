@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import './App.scss';
 import SearchForm from './components/SearchForm/SearchForm';
 import Header from './components/UI/Header';
@@ -10,21 +12,53 @@ import Overlay from './components/UI/Overlay';
 import AddRecipeWindow from './components/AddRecipeWindow/AddRecipeWindow';
 
 function App() {
+    const saveSearchDataHandler = enteredSearch => {
+        console.log(enteredSearch);
+    };
+
+    const saveIdPreviewHandler = selectedId => {
+        console.log(selectedId);
+    };
+
+    const saveCurrentPageHandler = selectedPage => {
+        setCurrentPage(selectedPage);
+    };
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const [isEditing, setIsEditing] = useState(false);
+
+    const startEditingHandler = () => {
+        setIsEditing(true);
+    };
+    const stopEditingHandler = () => {
+        setIsEditing(false);
+    };
+
     return (
         <div>
             <div className="container">
                 <Header>
-                    <SearchForm />
-                    <Nav />
+                    <SearchForm onSaveSearchData={saveSearchDataHandler} />
+                    <Nav onEditing={startEditingHandler} />
                 </Header>
                 <SearchResults>
-                    <Results />
-                    <Pagination />
+                    <Results
+                        page={currentPage}
+                        onSaveIdPreview={saveIdPreviewHandler}
+                    />
+                    <Pagination
+                        page={currentPage}
+                        onSaveCurrentPage={saveCurrentPageHandler}
+                    />
                 </SearchResults>
                 <Recipe />
             </div>
-            <Overlay className="hidden" />
-            <AddRecipeWindow className="hidden" />
+            <Overlay isEditing={isEditing} onCancel={stopEditingHandler} />
+            <AddRecipeWindow
+                isEditing={isEditing}
+                onCancel={stopEditingHandler}
+            />
         </div>
     );
 }

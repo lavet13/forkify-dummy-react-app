@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import Message from '../UI/Message';
 import './Recipe.scss';
 
@@ -10,8 +12,25 @@ function Recipe() {
     const iconMinusCircle = `${icons}#icon-minus-circle`;
     const iconPlusCircle = `${icons}#icon-plus-circle`;
     const iconBookmarkFill = `${icons}#icon-bookmark-fill`;
+    const iconBookmarkUnFill = `${icons}#icon-bookmark`;
     const iconCheck = `${icons}#icon-check`;
     const iconArrowRight = `${icons}#icon-arrow-right`;
+
+    const [isBookmarked, setIsBookmarked] = useState(false);
+    const bookmarkChangeHandler = () => {
+        setIsBookmarked(isBookmarked => !isBookmarked);
+    };
+
+    const [currentServings, setCurrentServings] = useState(4);
+    const nextServingsHandler = () => {
+        setCurrentServings(currentServings => currentServings + 1);
+    };
+
+    const prevServingsHandler = () => {
+        setCurrentServings(currentServings => {
+            return currentServings > 1 ? currentServings - 1 : currentServings;
+        });
+    };
 
     return (
         <div>
@@ -42,17 +61,23 @@ function Recipe() {
                         <use href={iconUsers}></use>
                     </svg>
                     <span className="recipe__info-data recipe__info-data--people">
-                        4
+                        {currentServings}
                     </span>
                     <span className="recipe__info-text">servings</span>
 
                     <div className="recipe__info-buttons">
-                        <button className="btn--tiny btn--increase-servings">
+                        <button
+                            onClick={prevServingsHandler}
+                            className="btn--tiny btn--increase-servings"
+                        >
                             <svg>
                                 <use href={iconMinusCircle}></use>
                             </svg>
                         </button>
-                        <button className="btn--tiny btn--increase-servings">
+                        <button
+                            onClick={nextServingsHandler}
+                            className="btn--tiny btn--increase-servings"
+                        >
                             <svg>
                                 <use href={iconPlusCircle}></use>
                             </svg>
@@ -65,9 +90,15 @@ function Recipe() {
                         <use href={iconUser}></use>
                     </svg>
                 </div>
-                <button className="btn--round">
+                <button onClick={bookmarkChangeHandler} className="btn--round">
                     <svg>
-                        <use href={iconBookmarkFill}></use>
+                        <use
+                            href={
+                                isBookmarked
+                                    ? iconBookmarkFill
+                                    : iconBookmarkUnFill
+                            }
+                        ></use>
                     </svg>
                 </button>
             </div>

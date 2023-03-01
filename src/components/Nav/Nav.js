@@ -3,7 +3,7 @@ import './Nav.scss';
 import Bookmarks from '../Bookmarks/Bookmarks';
 import icons from '../../resources/icons.svg';
 
-function Nav() {
+function Nav({ onEditing }) {
     const iconEdit = `${icons}#icon-edit`;
     const iconBookmark = `${icons}#icon-bookmark`;
 
@@ -11,7 +11,10 @@ function Nav() {
         <nav className="nav">
             <ul className="nav__list">
                 <li className="nav__item">
-                    <button className="nav__btn nav__btn--add-recipe">
+                    <button
+                        onClick={onEditing}
+                        className="nav__btn nav__btn--add-recipe"
+                    >
                         <svg className="nav__icon">
                             <use href={iconEdit}></use>
                         </svg>

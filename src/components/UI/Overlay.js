@@ -1,8 +1,8 @@
 import './Overlay.scss';
 
-function Overlay({ className }) {
-    const classes = 'overlay ' + (className || '');
-    return <div className={classes}></div>;
+function Overlay({ className = 'hidden', onCancel, isEditing }) {
+    const classes = 'overlay ' + (!isEditing && (className || ''));
+    return <div onClick={onCancel} className={classes}></div>;
 }
 
 export default Overlay;
