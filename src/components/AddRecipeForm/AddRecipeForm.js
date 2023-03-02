@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './AddRecipeForm.scss';
 import icons from '../../resources/icons.svg';
 
+import Button from '../UI/Button';
+
 function AddRecipeForm() {
     const [enteredTitle, setEnteredTitle] = useState('');
     const [enteredSourceUrl, setEnteredSourceUrl] = useState('');
@@ -36,8 +38,23 @@ function AddRecipeForm() {
         setEnteredIngredientOne(e.target.value);
     };
 
+    const formSubmitHandler = e => {
+        e.preventDefault();
+
+        const enteredData = {
+            title: enteredTitle,
+            sourceUrl: enteredSourceUrl,
+            image: enteredImage,
+            publisher: enteredPublisher,
+            cookingTime: enteredCookingTime,
+            servings: enteredServings,
+        };
+
+        console.log(enteredData);
+    };
+
     return (
-        <form className="upload">
+        <form onSubmit={formSubmitHandler} className="upload">
             <div className="upload__column">
                 <h3 className="upload__heading">Recipe data</h3>
                 <label>Title</label>
@@ -103,12 +120,12 @@ function AddRecipeForm() {
                 />
             </div>
 
-            <button className="btn upload__btn">
+            <Button type="submit" className="upload__btn">
                 <svg>
                     <use href={iconUploadCloud}></use>
                 </svg>
                 <span>Upload</span>
-            </button>
+            </Button>
         </form>
     );
 }
