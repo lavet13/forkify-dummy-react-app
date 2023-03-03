@@ -31,7 +31,7 @@ function SearchForm({ onSaveSearchData }) {
                 placeholder="Search over 1,000,000 recipes..."
                 required
             />
-            <Button className="search__btn" type="submit">
+            <Button btn searchBtn type="submit">
                 <svg className="search__icon">
                     <use href={iconSearch}></use>
                 </svg>

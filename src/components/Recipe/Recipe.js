@@ -4,6 +4,8 @@ import Message from '../UI/Message';
 import './Recipe.scss';
 
 import icons from '../../resources/icons.svg';
+import Button from '../UI/Button';
+import A from '../UI/A';
 
 function Recipe() {
     const iconClock = `${icons}#icon-clock`;
@@ -66,22 +68,16 @@ function Recipe() {
                     <span className="recipe__info-text">servings</span>
 
                     <div className="recipe__info-buttons">
-                        <button
-                            onClick={prevServingsHandler}
-                            className="btn--tiny btn--increase-servings"
-                        >
+                        <Button btnTiny onClick={prevServingsHandler}>
                             <svg>
                                 <use href={iconMinusCircle}></use>
                             </svg>
-                        </button>
-                        <button
-                            onClick={nextServingsHandler}
-                            className="btn--tiny btn--increase-servings"
-                        >
+                        </Button>
+                        <Button btnTiny onClick={nextServingsHandler}>
                             <svg>
                                 <use href={iconPlusCircle}></use>
                             </svg>
-                        </button>
+                        </Button>
                     </div>
                 </div>
 
@@ -90,7 +86,7 @@ function Recipe() {
                         <use href={iconUser}></use>
                     </svg>
                 </div>
-                <button onClick={bookmarkChangeHandler} className="btn--round">
+                <Button btnRound onClick={bookmarkChangeHandler}>
                     <svg>
                         <use
                             href={
@@ -100,7 +96,7 @@ function Recipe() {
                             }
                         ></use>
                     </svg>
-                </button>
+                </Button>
             </div>
 
             <div className="recipe__ingredients">
@@ -140,15 +136,12 @@ function Recipe() {
                     </span>
                     . Please check out directions at their website.
                 </p>
-                <a
-                    className="btn--small recipe__btn"
-                    href="http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/"
-                >
+                <A href="http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/">
                     <span>Directions</span>
                     <svg className="search__icon">
                         <use href={iconArrowRight}></use>
                     </svg>
-                </a>
+                </A>
             </div>
         </div>
     );

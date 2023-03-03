@@ -1,6 +1,7 @@
 import './Pagination.scss';
 
 import icons from '../../resources/icons.svg';
+import Button from '../UI/Button';
 
 function Pagination({ onSaveCurrentPage, page }) {
     const iconArrowLeft = `${icons}#icon-arrow-left`;
@@ -17,25 +18,19 @@ function Pagination({ onSaveCurrentPage, page }) {
     return (
         <div className="pagination">
             {page > 1 && (
-                <button
-                    onClick={prevPageHandler}
-                    className="btn--inline pagination__btn--prev"
-                >
+                <Button btnInline floatLeft onClick={prevPageHandler}>
                     <svg className="search__icon">
                         <use href={iconArrowLeft}></use>
                     </svg>
                     <span>Page {page - 1}</span>
-                </button>
+                </Button>
             )}
-            <button
-                onClick={nextPageHandler}
-                className="btn--inline pagination__btn--next"
-            >
+            <Button btnInline floatRight onClick={nextPageHandler}>
                 <span>Page {page + 1}</span>
                 <svg className="search__icon">
                     <use href={iconArrowRight}></use>
                 </svg>
-            </button>
+            </Button>
         </div>
     );
 }

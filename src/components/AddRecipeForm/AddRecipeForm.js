@@ -3,18 +3,18 @@ import './AddRecipeForm.scss';
 import icons from '../../resources/icons.svg';
 
 import Button from '../UI/Button';
+import Ingredients from '../Ingredients/Ingredients';
 
 function AddRecipeForm() {
+    const iconUploadCloud = `${icons}#icon-upload-cloud`;
+
+    //////////////////////////////////////////////////////////
     const [enteredTitle, setEnteredTitle] = useState('');
     const [enteredSourceUrl, setEnteredSourceUrl] = useState('');
     const [enteredImage, setEnteredImage] = useState('');
     const [enteredPublisher, setEnteredPublisher] = useState('');
     const [enteredCookingTime, setEnteredCookingTime] = useState('');
     const [enteredServings, setEnteredServings] = useState('');
-
-    const [enteredIngredientOne, setEnteredIngredientOne] = useState('');
-
-    const iconUploadCloud = `${icons}#icon-upload-cloud`;
 
     const titleChangeHandler = e => {
         setEnteredTitle(e.target.value);
@@ -34,8 +34,20 @@ function AddRecipeForm() {
     const servingsChangeHandler = e => {
         setEnteredServings(e.target.value);
     };
-    const ingredientOneChangeHandler = e => {
-        setEnteredIngredientOne(e.target.value);
+
+    const [ingredients, setIngredients] = useState(
+        Array.from({ length: 6 }, (_, i) => [`ingredient-${i + 1}`, ''])
+    );
+
+    const saveIngredientHandler = savedIngredient => {
+        setIngredients(prevIngredients => {
+            const [index, value] = savedIngredient;
+
+            return prevIngredients.map(([ingredientId, ingValue], ingIndex) => [
+                ingredientId,
+                ingIndex === index ? value : ingValue,
+            ]);
+        });
     };
 
     const formSubmitHandler = e => {
@@ -48,6 +60,7 @@ function AddRecipeForm() {
             publisher: enteredPublisher,
             cookingTime: enteredCookingTime,
             servings: enteredServings,
+            ...Object.fromEntries(ingredients),
         };
 
         console.log(enteredData);
@@ -61,7 +74,6 @@ function AddRecipeForm() {
                 <input
                     onChange={titleChangeHandler}
                     value={enteredTitle}
-                    required
                     name="title"
                     type="text"
                 />
@@ -69,7 +81,6 @@ function AddRecipeForm() {
                 <input
                     onChange={sourceUrlChangeHandler}
                     value={enteredSourceUrl}
-                    required
                     name="sourceUrl"
                     type="text"
                 />
@@ -77,7 +88,6 @@ function AddRecipeForm() {
                 <input
                     onChange={imageChangeHandler}
                     value={enteredImage}
-                    required
                     name="image"
                     type="text"
                 />
@@ -85,7 +95,6 @@ function AddRecipeForm() {
                 <input
                     onChange={publisherChangeHandler}
                     value={enteredPublisher}
-                    required
                     name="publisher"
                     type="text"
                 />
@@ -93,7 +102,6 @@ function AddRecipeForm() {
                 <input
                     onChange={cookingTimeChangeHandler}
                     value={enteredCookingTime}
-                    required
                     name="cookingTime"
                     type="number"
                 />
@@ -101,26 +109,17 @@ function AddRecipeForm() {
                 <input
                     onChange={servingsChangeHandler}
                     value={enteredServings}
-                    required
                     name="servings"
                     type="number"
                 />
             </div>
 
-            <div className="upload__column">
-                <h3 className="upload__heading">Ingredients</h3>
-                <label>Ingredient 1</label>
-                <input
-                    onChange={ingredientOneChangeHandler}
-                    value={enteredIngredientOne}
-                    type="text"
-                    required
-                    name="ingredient-1"
-                    placeholder="Format: 'Quantity,Unit,Description'"
-                />
-            </div>
+            <Ingredients
+                items={ingredients}
+                onSaveIngredient={saveIngredientHandler}
+            />
 
-            <Button type="submit" className="upload__btn">
+            <Button btn uploadBtn type="submit">
                 <svg>
                     <use href={iconUploadCloud}></use>
                 </svg>

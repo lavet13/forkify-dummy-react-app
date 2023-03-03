@@ -1,56 +1,89 @@
-import React from 'react';
-// import './Button.scss';
 import styled, { css } from 'styled-components';
 
 const Button = styled.button`
-    background-image: linear-gradient(to right bottom, #fbdb89, #f48982);
-    border-radius: 10rem;
-    border: none;
-    text-transform: uppercase;
-    color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: all 0.2s;
-
-    padding: 1.5rem 4rem;
-    font-size: 1.5rem;
-    font-weight: 600;
-
-    & svg {
-        height: 2.25rem;
-        width: 2.25rem;
-        fill: currentColor;
-    }
-
-    &:hover {
-        transform: scale(1.05);
-    }
-
-    &:focus {
-        outline: none;
-    }
-
-    & > *:first-child {
-        margin-right: 1rem;
-    }
-
-    ${({ btnSmall }) =>
-        btnSmall &&
+    ${({ btn }) =>
+        btn &&
         css`
-            &,
-            &:link,
-            &:visited {
-                font-size: 1.4rem;
-                font-weight: 600;
-                padding: 1.25rem 2.25rem;
-                text-decoration: none;
+            background-image: linear-gradient(
+                to right bottom,
+                #fbdb89,
+                #f48982
+            );
+            border-radius: 10rem;
+            border: none;
+            text-transform: uppercase;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
 
-                & svg {
-                    height: 1.75rem;
-                    width: 1.75rem;
-                    fill: currentColor;
-                }
+            padding: 1.5rem 4rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            ${({ searchBtn }) =>
+                searchBtn &&
+                css`
+                    font-weight: 600;
+                    font-family: inherit;
+                `}
+
+            & svg {
+                height: 2.25rem;
+                width: 2.25rem;
+                fill: currentColor;
+            }
+
+            &:hover {
+                transform: scale(1.05);
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            & > *:first-child {
+                margin-right: 1rem;
+            }
+        `}
+
+    ${({ navBtn }) =>
+        navBtn &&
+        css`
+            height: 100%;
+            font-family: inherit;
+            color: inherit;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0 1.5rem;
+            transition: all 0.3s;
+
+            display: flex;
+            align-items: center;
+
+            & svg {
+                height: 2.4rem;
+                width: 2.4rem;
+                fill: #f38e82;
+                margin-right: 0.7rem;
+                transform: translateY(-1px);
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            &:hover {
+                background-color: #f2efee;
+            }
+
+            &:hover + .bookmarks {
+                visibility: visible;
+                opacity: 1;
             }
         `}
 
@@ -69,6 +102,17 @@ const Button = styled.button`
             display: flex;
             align-items: center;
             transition: all 0.2s;
+            ${({ floatLeft }) =>
+                floatLeft &&
+                css`
+                    float: left;
+                `}
+
+            ${({ floatRight }) =>
+                floatRight &&
+                css`
+                    float: right;
+                `}
 
             & svg {
                 height: 1.6rem;
@@ -160,16 +204,35 @@ const Button = styled.button`
                 margin-right: 0.3rem;
             }
         `}
+
+    ${({ btnCloseModal }) =>
+        btnCloseModal &&
+        css`
+            font-family: inherit;
+            color: inherit;
+            position: absolute;
+            top: 0.5rem;
+            right: 1.6rem;
+            font-size: 3.5rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+        `}
+
+    ${({ uploadBtn }) =>
+        uploadBtn &&
+        css`
+            grid-column: 1 / -1;
+            justify-self: center;
+        `}
+
+    ${({ uploadBtnColumn }) =>
+        uploadBtnColumn &&
+        css`
+            grid-column: 1 / span 2;
+            justify-self: center;
+            margin-top: 1rem;
+        `}
 `;
-
-// function Button({ className, children, type = 'button' }) {
-//     const classes = 'btn ' + (className || '');
-
-//     return (
-//         <button className={classes} type={type}>
-//             {children}
-//         </button>
-//     );
-// }
 
 export default Button;

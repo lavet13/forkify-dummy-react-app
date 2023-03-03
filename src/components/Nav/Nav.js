@@ -12,10 +12,7 @@ function Nav({ onEditing }) {
         <nav className="nav">
             <ul className="nav__list">
                 <li className="nav__item">
-                    <Button
-                        onClick={onEditing}
-                        className="nav__btn nav__btn--add-recipe"
-                    >
+                    <Button navBtn onClick={onEditing}>
                         <svg className="nav__icon">
                             <use href={iconEdit}></use>
                         </svg>
@@ -23,7 +20,7 @@ function Nav({ onEditing }) {
                     </Button>
                 </li>
                 <li className="nav__item">
-                    <Button className="nav__btn nav__btn--bookmarks">
+                    <Button navBtn>
                         <svg className="nav__icon">
                             <use href={iconBookmark}></use>
                         </svg>

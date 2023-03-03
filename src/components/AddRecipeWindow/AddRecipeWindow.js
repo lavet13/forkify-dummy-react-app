@@ -1,14 +1,15 @@
 import './AddRecipeWindow.scss';
 import AddRecipeForm from '../AddRecipeForm/AddRecipeForm';
+import Button from '../UI/Button';
 
-function AddRecipeWindow({ className = 'hidden', isEditing, onCancel }) {
-    const classes = 'add-recipe-window ' + (!isEditing && (className || ''));
-
+function AddRecipeWindow({ isEditing, onCancel }) {
     return (
-        <div className={classes}>
-            <button onClick={onCancel} className="btn--close-modal">
+        <div
+            className={`add-recipe-window ${isEditing ? '' : 'hidden'}`.trim()}
+        >
+            <Button btnCloseModal onClick={onCancel}>
                 &times;
-            </button>
+            </Button>
             <AddRecipeForm />
         </div>
     );
