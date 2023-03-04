@@ -1,10 +1,9 @@
-import './Results.scss';
+import React from 'react';
+import styles from './Results.module.css';
 
 import Preview from '../UI/Preview';
 
 function Results({ onSaveIdPreview, page }) {
-    console.log(page);
-
     const previewLinkHandler = e => {
         e.preventDefault();
         const link = e.target.closest('.preview__link');
@@ -16,7 +15,7 @@ function Results({ onSaveIdPreview, page }) {
     };
 
     return (
-        <div onClick={previewLinkHandler} className="results">
+        <div onClick={previewLinkHandler} className={styles.results}>
             <Preview />
         </div>
     );

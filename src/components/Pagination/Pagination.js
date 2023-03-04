@@ -1,4 +1,5 @@
-import './Pagination.scss';
+import React from 'react';
+import styles from './Pagination.module.css';
 
 import icons from '../../resources/icons.svg';
 import Button from '../UI/Button';
@@ -16,10 +17,10 @@ function Pagination({ onSaveCurrentPage, page }) {
     };
 
     return (
-        <div className="pagination">
+        <div className={styles.pagination}>
             {page > 1 && (
                 <Button btnInline floatLeft onClick={prevPageHandler}>
-                    <svg className="search__icon">
+                    <svg>
                         <use href={iconArrowLeft}></use>
                     </svg>
                     <span>Page {page - 1}</span>
@@ -27,7 +28,7 @@ function Pagination({ onSaveCurrentPage, page }) {
             )}
             <Button btnInline floatRight onClick={nextPageHandler}>
                 <span>Page {page + 1}</span>
-                <svg className="search__icon">
+                <svg>
                     <use href={iconArrowRight}></use>
                 </svg>
             </Button>

@@ -81,7 +81,7 @@ const Button = styled.button`
                 background-color: #f2efee;
             }
 
-            &:hover + .bookmarks {
+            &:hover + ${({ bookmarkClass }) => `.${bookmarkClass}`} {
                 visibility: visible;
                 opacity: 1;
             }

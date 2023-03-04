@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import './SearchForm.scss';
+import styles from './SearchForm.module.css';
 import icons from '../../resources/icons.svg';
-
 import Button from '../UI/Button';
 
 function SearchForm({ onSaveSearchData }) {
@@ -22,17 +21,17 @@ function SearchForm({ onSaveSearchData }) {
     };
 
     return (
-        <form onSubmit={formSubmitHandler} className="search">
+        <form onSubmit={formSubmitHandler} className={styles.search}>
             <input
                 type="text"
                 onChange={searchFieldChangeHandler}
                 value={enteredSearchField}
-                className="search__field"
+                className={styles.search__field}
                 placeholder="Search over 1,000,000 recipes..."
                 required
             />
             <Button btn searchBtn type="submit">
-                <svg className="search__icon">
+                <svg>
                     <use href={iconSearch}></use>
                 </svg>
                 <span>Search</span>

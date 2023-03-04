@@ -1,10 +1,13 @@
-import './Overlay.scss';
+import React from 'react';
+import styles from './Overlay.module.css';
 
 function Overlay({ onCancel, isEditing }) {
     return (
         <div
             onClick={onCancel}
-            className={`overlay ${isEditing ? '' : 'hidden'}`.trim()}
+            className={`${styles.overlay} ${
+                isEditing ? '' : styles.hidden
+            }`.trim()}
         ></div>
     );
 }

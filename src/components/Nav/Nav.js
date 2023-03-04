@@ -1,4 +1,6 @@
-import './Nav.scss';
+import React from 'react';
+import styles from './Nav.module.css';
+import otherStyles from '../Bookmarks/Bookmarks.module.css';
 
 import Bookmarks from '../Bookmarks/Bookmarks';
 import icons from '../../resources/icons.svg';
@@ -9,19 +11,19 @@ function Nav({ onEditing }) {
     const iconBookmark = `${icons}#icon-bookmark`;
 
     return (
-        <nav className="nav">
-            <ul className="nav__list">
-                <li className="nav__item">
+        <nav className={styles.nav}>
+            <ul className={styles.nav__list}>
+                <li className={styles.nav__item}>
                     <Button navBtn onClick={onEditing}>
-                        <svg className="nav__icon">
+                        <svg>
                             <use href={iconEdit}></use>
                         </svg>
                         <span>Add recipe</span>
                     </Button>
                 </li>
-                <li className="nav__item">
-                    <Button navBtn>
-                        <svg className="nav__icon">
+                <li className={styles.nav__item}>
+                    <Button navBtn bookmarkClass={otherStyles.bookmarks}>
+                        <svg>
                             <use href={iconBookmark}></use>
                         </svg>
                         <span>Bookmarks</span>

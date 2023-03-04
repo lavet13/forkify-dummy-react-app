@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AddRecipeForm.scss';
+import styles from './AddRecipeForm.module.css';
 import icons from '../../resources/icons.svg';
 
 import Button from '../UI/Button';
@@ -67,9 +67,9 @@ function AddRecipeForm() {
     };
 
     return (
-        <form onSubmit={formSubmitHandler} className="upload">
-            <div className="upload__column">
-                <h3 className="upload__heading">Recipe data</h3>
+        <form onSubmit={formSubmitHandler} className={styles.upload}>
+            <div className={styles.upload__column}>
+                <h3 className={styles.upload__heading}>Recipe data</h3>
                 <label>Title</label>
                 <input
                     onChange={titleChangeHandler}

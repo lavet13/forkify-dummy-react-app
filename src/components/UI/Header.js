@@ -1,12 +1,11 @@
-import './Header.scss';
+import React from 'react';
+import styles from './Header.module.css';
 import logo from '../../resources/logo.png';
 
-function Header({ className, children }) {
-    const classes = 'header ' + (className || '');
-
+function Header({ children }) {
     return (
-        <header className={classes}>
-            <img className="header__logo" src={logo} alt="Logo" />
+        <header className={styles.header}>
+            <img className={styles.header__logo} src={logo} alt="Logo" />
             {children}
         </header>
     );

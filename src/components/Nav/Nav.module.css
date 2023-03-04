@@ -1,0 +1,14 @@
+.nav {
+    align-self: stretch;
+    margin-right: 2.5rem;
+}
+
+.nav__list {
+    list-style: none;
+    display: flex;
+    height: 100%;
+}
+
+.nav__item {
+    position: relative;
+}

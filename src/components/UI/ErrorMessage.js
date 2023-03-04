@@ -1,4 +1,5 @@
-import './ErrorMessage.scss';
+import React from 'react';
+import styles from './ErrorMessage.module.css';
 
 import icons from '../../resources/icons.svg';
 
@@ -6,7 +7,7 @@ function ErrorMessage({ text }) {
     const iconError = `${icons}#icon-alert-triangle`;
 
     return (
-        <div className="error">
+        <div className={styles.error}>
             <div>
                 <svg>
                     <use href={iconError}></use>

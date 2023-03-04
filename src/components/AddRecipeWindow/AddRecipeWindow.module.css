@@ -12,3 +12,8 @@
     z-index: 1000;
     transition: all 0.5s;
 }
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+}

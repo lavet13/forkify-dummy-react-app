@@ -1,4 +1,5 @@
-import './Preview.scss';
+import React from 'react';
+import styles from './Preview.module.css';
 
 // import icons from '../../resources/icons.svg';
 
@@ -6,16 +7,18 @@ function Preview() {
     // const iconUser = `${icons}#icon-user`;
 
     return (
-        <li className="preview">
-            <a className="preview__link" href="?id=23456">
-                <figure className="preview__fig">
+        <li>
+            <a className={styles['preview__link']} href="?id=23456">
+                <figure className={styles['preview__fig']}>
                     {/* <img src="src/img/test-1.jpg" alt="Test" /> */}
                 </figure>
-                <div className="preview__data">
-                    <h4 className="preview__title">
+                <div className={styles['preview__data']}>
+                    <h4 className={styles['preview__title']}>
                         Pasta with Tomato Cream ...
                     </h4>
-                    <p className="preview__publisher">The Pioneer Woman</p>
+                    <p className={styles['preview__publisher']}>
+                        The Pioneer Woman
+                    </p>
                     {/* <div className="preview__user-generated">
                         <svg>
                             <use href={iconUser}></use>
