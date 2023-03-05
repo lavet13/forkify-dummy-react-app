@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import IngredientItem from './IngredientItem';
 import styles from '../AddRecipeForm/AddRecipeForm.module.css';
 
@@ -8,9 +8,9 @@ function Ingredients({ items, onSaveIngredient }) {
     return (
         <div className={styles.upload__column}>
             <h3 className={styles.upload__heading}>Ingredients</h3>
-            {items.map(([_, value], i) => (
+            {items.map(([ingredientId, value], i) => (
                 <IngredientItem
-                    key={i}
+                    key={ingredientId}
                     id={i}
                     value={value}
                     onSaveIngredient={onSaveIngredient}
