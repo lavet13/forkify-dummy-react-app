@@ -36,28 +36,22 @@ function AddRecipeForm() {
     };
 
     const [ingredients, setIngredients] = useState(
-        Array.from({ length: 6 }, (_, i) => [`ingredient-${i + 1}`, ''])
-    );
-
-    const [isValidIngredients, setIsValidIngredients] = useState(
-        Array.from({ length: ingredients.length }, () => true)
+        Array.from({ length: 6 }, (_, i) => [`ingredient-${i + 1}`, '', true])
     );
 
     const saveIngredientHandler = savedIngredient => {
-        const [index, value] = savedIngredient;
-
-        if (value.trim().length > 0)
-            setIsValidIngredients(prevValidIngredients => {
-                return prevValidIngredients.map((isValid, i) =>
-                    i === index ? true : isValid
-                );
-            });
+        const [savedIndex, savedValue] = savedIngredient;
 
         setIngredients(prevIngredients => {
-            return prevIngredients.map(([ingredientId, ingValue], ingIndex) => [
+            const [ingredientId, , IsValid] = prevIngredients[savedIndex];
+
+            prevIngredients.splice(savedIndex, 1, [
                 ingredientId,
-                ingIndex === index ? value : ingValue,
+                savedValue,
+                savedValue.trim().length > 0 ? true : IsValid,
             ]);
+
+            return [...prevIngredients];
         });
     };
 
@@ -65,13 +59,20 @@ function AddRecipeForm() {
         e.preventDefault();
 
         if (ingredients.some(([_, value]) => value.trim().length === 0)) {
-            setIsValidIngredients(prevValidIngredients =>
-                prevValidIngredients.map((isValid, i) =>
-                    ingredients[i][1].trim().length === 0 ? false : isValid
-                )
-            );
+            setIngredients(prevIngredients => {
+                return prevIngredients.map(([ingredientId, ingValue]) => [
+                    ingredientId,
+                    ingValue,
+                    ingValue.trim().length !== 0,
+                ]);
+            });
+
             return;
         }
+
+        const ingredientsValues = ingredients.map(
+            ([ingredientId, ingValue]) => [ingredientId, ingValue.trim()]
+        );
 
         const enteredData = {
             title: enteredTitle,
@@ -80,7 +81,7 @@ function AddRecipeForm() {
             publisher: enteredPublisher,
             cookingTime: enteredCookingTime,
             servings: enteredServings,
-            ...Object.fromEntries(ingredients),
+            ...Object.fromEntries(ingredientsValues),
         };
 
         console.log(enteredData);
@@ -137,7 +138,6 @@ function AddRecipeForm() {
             <Ingredients
                 items={ingredients}
                 onSaveIngredient={saveIngredientHandler}
-                isValidIngredients={isValidIngredients}
             />
 
             <Button btn uploadBtn type="submit">
