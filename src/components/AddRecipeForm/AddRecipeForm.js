@@ -70,7 +70,7 @@ function AddRecipeForm() {
             return;
         }
 
-        const ingredientsValues = ingredients.map(
+        const filledIngredients = ingredients.map(
             ([ingredientId, ingValue]) => [ingredientId, ingValue.trim()]
         );
 
@@ -81,7 +81,7 @@ function AddRecipeForm() {
             publisher: enteredPublisher,
             cookingTime: enteredCookingTime,
             servings: enteredServings,
-            ...Object.fromEntries(ingredientsValues),
+            ...Object.fromEntries(filledIngredients),
         };
 
         console.log(enteredData);
