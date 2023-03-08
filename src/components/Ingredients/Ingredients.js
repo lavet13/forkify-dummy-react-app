@@ -2,8 +2,8 @@ import React from 'react';
 import IngredientItem from './IngredientItem';
 import styles from '../AddRecipeForm/AddRecipeForm.module.css';
 
-function Ingredients({ items, onSaveIngredient }) {
-    console.log(items);
+function Ingredients({ items, onSaveIngredient, isValidIngredients }) {
+    console.log(isValidIngredients);
 
     return (
         <div className={styles.upload__column}>
@@ -13,6 +13,7 @@ function Ingredients({ items, onSaveIngredient }) {
                     key={ingredientId}
                     id={i}
                     value={value}
+                    isValid={isValidIngredients[i]}
                     onSaveIngredient={onSaveIngredient}
                 />
             ))}

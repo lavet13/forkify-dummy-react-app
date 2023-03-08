@@ -39,10 +39,21 @@ function AddRecipeForm() {
         Array.from({ length: 6 }, (_, i) => [`ingredient-${i + 1}`, ''])
     );
 
-    const saveIngredientHandler = savedIngredient => {
-        setIngredients(prevIngredients => {
-            const [index, value] = savedIngredient;
+    const [isValidIngredients, setIsValidIngredients] = useState(
+        Array.from({ length: ingredients.length }, () => true)
+    );
 
+    const saveIngredientHandler = savedIngredient => {
+        const [index, value] = savedIngredient;
+
+        if (value.trim().length > 0)
+            setIsValidIngredients(prevValidIngredients => {
+                return prevValidIngredients.map((isValid, i) =>
+                    i === index ? true : isValid
+                );
+            });
+
+        setIngredients(prevIngredients => {
             return prevIngredients.map(([ingredientId, ingValue], ingIndex) => [
                 ingredientId,
                 ingIndex === index ? value : ingValue,
@@ -52,6 +63,15 @@ function AddRecipeForm() {
 
     const formSubmitHandler = e => {
         e.preventDefault();
+
+        if (ingredients.some(([_, value]) => value.trim().length === 0)) {
+            setIsValidIngredients(prevValidIngredients =>
+                prevValidIngredients.map((isValid, i) =>
+                    ingredients[i][1].trim().length === 0 ? false : isValid
+                )
+            );
+            return;
+        }
 
         const enteredData = {
             title: enteredTitle,
@@ -117,6 +137,7 @@ function AddRecipeForm() {
             <Ingredients
                 items={ingredients}
                 onSaveIngredient={saveIngredientHandler}
+                isValidIngredients={isValidIngredients}
             />
 
             <Button btn uploadBtn type="submit">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import './App.scss';
+import styles from './App.module.css';
 import SearchForm from './components/SearchForm/SearchForm';
 import Header from './components/UI/Header';
 import Nav from './components/Nav/Nav';
@@ -37,7 +37,7 @@ function App() {
 
     return (
         <div>
-            <div className="container">
+            <div className={styles.container}>
                 <Header>
                     <SearchForm onSaveSearchData={saveSearchDataHandler} />
                     <Nav onEditing={startEditingHandler} />

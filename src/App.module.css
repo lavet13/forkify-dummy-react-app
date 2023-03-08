@@ -1,5 +1,3 @@
-@import '/src/styles/abstracts/variables';
-
 .container {
     max-width: 120rem;
     min-height: 117rem;
@@ -7,7 +5,7 @@
     background-color: #fff;
     border-radius: 9px;
     overflow: hidden;
-    box-shadow: 0 2rem 6rem 0.5rem rgba($color-grey-dark-1, 0.2);
+    box-shadow: 0 2rem 6rem 0.5rem rgba(97, 85, 81, 0.2);
 
     display: grid;
     grid-template-rows: 10rem minmax(100rem, auto);
@@ -15,8 +13,9 @@
     grid-template-areas:
         'head head'
         'list recipe';
-
-    @media only screen and (max-width: $bp-large) {
+}
+@media only screen and (max-width: 78.15em) {
+    .container {
         max-width: 100%;
         margin: 0;
         border-radius: 0;
