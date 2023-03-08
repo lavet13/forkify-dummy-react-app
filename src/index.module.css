@@ -14,12 +14,6 @@ html {
     font-size: 62.5%;
 }
 
-@media only screen and (max-width: 61.25em) {
-    html {
-        font-size: 50%;
-    }
-}
-
 body {
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 400;
@@ -29,4 +23,10 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     min-height: calc(100vh - 2 * 4vw);
+}
+
+@media only screen and (max-width: 61.25em) {
+    html {
+        font-size: 50%;
+    }
 }
