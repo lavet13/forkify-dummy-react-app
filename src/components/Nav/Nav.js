@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
 import styles from './Nav.module.css';
 import otherStyles from '../Bookmarks/Bookmarks.module.css';
 
 import Bookmarks from '../Bookmarks/Bookmarks';
 import icons from '../../resources/icons.svg';
 import Button from '../UI/Button';
-import Backdrop from '../AddRecipeWindow/Backdrop';
 import AddRecipeWindow from '../AddRecipeWindow/AddRecipeWindow';
 
 function Nav() {
@@ -32,22 +30,9 @@ function Nav() {
                         </svg>
                         <span>Add recipe</span>
                     </Button>
-                    {isEditing &&
-                        ReactDOM.createPortal(
-                            <Backdrop
-                                isEditing={isEditing}
-                                onStopEditing={stopEditingHandler}
-                            />,
-                            document.querySelector('#backdrop-root')
-                        )}
-                    {isEditing &&
-                        ReactDOM.createPortal(
-                            <AddRecipeWindow
-                                isEditing={isEditing}
-                                onCancel={stopEditingHandler}
-                            />,
-                            document.querySelector('#overlay-root')
-                        )}
+                    {isEditing && (
+                        <AddRecipeWindow onCancel={stopEditingHandler} />
+                    )}
                 </li>
                 <li className={styles.nav__item}>
                     <Button navBtn bookmarkClass={otherStyles.bookmarks}>
