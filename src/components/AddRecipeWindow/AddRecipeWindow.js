@@ -2,10 +2,11 @@ import React from 'react';
 import styles from './AddRecipeWindow.module.css';
 import AddRecipeForm from '../AddRecipeForm/AddRecipeForm';
 import Button from '../UI/Button';
+import Card from '../UI/Card';
 
 function AddRecipeWindow({ isEditing, onCancel }) {
     return (
-        <div
+        <Card
             className={`${styles['add-recipe-window']} ${
                 isEditing ? '' : styles.hidden
             }`.trim()}
@@ -14,7 +15,7 @@ function AddRecipeWindow({ isEditing, onCancel }) {
                 &times;
             </Button>
             <AddRecipeForm />
-        </div>
+        </Card>
     );
 }
 

@@ -3,8 +3,6 @@ import IngredientItem from './IngredientItem';
 import styles from '../AddRecipeForm/AddRecipeForm.module.css';
 
 function Ingredients({ items, onSaveIngredient }) {
-    console.log(styles);
-
     return (
         <div className={styles.upload__column}>
             <h3 className={styles.upload__heading}>Ingredients</h3>

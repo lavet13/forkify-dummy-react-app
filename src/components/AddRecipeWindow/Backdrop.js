@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './Overlay.module.css';
+import styles from './Backdrop.module.css';
 
-function Overlay({ onCancel, isEditing }) {
+function Backdrop({ onStopEditing, isEditing }) {
     return (
         <div
-            onClick={onCancel}
+            onClick={onStopEditing}
             className={`${styles.overlay} ${
                 isEditing ? '' : styles.hidden
             }`.trim()}
@@ -12,4 +12,4 @@ function Overlay({ onCancel, isEditing }) {
     );
 }
 
-export default Overlay;
+export default Backdrop;

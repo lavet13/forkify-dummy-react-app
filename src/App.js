@@ -8,8 +8,6 @@ import SearchResults from './components/SearchResults/SearchResults';
 import Results from './components/Results/Results';
 import Pagination from './components/Pagination/Pagination';
 import Recipe from './components/Recipe/Recipe';
-import Overlay from './components/AddRecipeWindow/Overlay';
-import AddRecipeWindow from './components/AddRecipeWindow/AddRecipeWindow';
 
 function App() {
     const saveSearchDataHandler = enteredSearch => {
@@ -26,39 +24,23 @@ function App() {
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const [isEditing, setIsEditing] = useState(false);
-
-    const startEditingHandler = () => {
-        setIsEditing(true);
-    };
-    const stopEditingHandler = () => {
-        setIsEditing(false);
-    };
-
     return (
-        <div>
-            <div className={styles.container}>
-                <Header>
-                    <SearchForm onSaveSearchData={saveSearchDataHandler} />
-                    <Nav onEditing={startEditingHandler} />
-                </Header>
-                <SearchResults>
-                    <Results
-                        page={currentPage}
-                        onSaveIdPreview={saveIdPreviewHandler}
-                    />
-                    <Pagination
-                        page={currentPage}
-                        onSaveCurrentPage={saveCurrentPageHandler}
-                    />
-                </SearchResults>
-                <Recipe />
-            </div>
-            <Overlay isEditing={isEditing} onCancel={stopEditingHandler} />
-            <AddRecipeWindow
-                isEditing={isEditing}
-                onCancel={stopEditingHandler}
-            />
+        <div className={styles.container}>
+            <Header>
+                <SearchForm onSaveSearchData={saveSearchDataHandler} />
+                <Nav />
+            </Header>
+            <SearchResults>
+                <Results
+                    page={currentPage}
+                    onSaveIdPreview={saveIdPreviewHandler}
+                />
+                <Pagination
+                    page={currentPage}
+                    onSaveCurrentPage={saveCurrentPageHandler}
+                />
+            </SearchResults>
+            <Recipe />
         </div>
     );
 }

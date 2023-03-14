@@ -9,8 +9,3 @@
     z-index: 100;
     transition: all 0.5s;
 }
-
-.hidden {
-    visibility: hidden;
-    opacity: 0;
-}
