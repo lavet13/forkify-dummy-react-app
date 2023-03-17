@@ -35,9 +35,13 @@ function AddRecipeForm() {
         setEnteredServings(e.target.value);
     };
 
+    // ingredients: key, value, isValid
     const [ingredients, setIngredients] = useState(
         Array.from({ length: 6 }, (_, i) => [`ingredient-${i + 1}`, '', true])
     );
+
+    const isValidIngredient = ing =>
+        ing.trim().length > 0 && ing.split(',').length > 2;
 
     const saveIngredientHandler = savedIngredient => {
         const [savedIndex, savedValue] = savedIngredient;
@@ -45,15 +49,22 @@ function AddRecipeForm() {
         setIngredients(prevIngredients => {
             const [ingredientId, , IsValid] = prevIngredients[savedIndex];
 
+            setFormIsValid(
+                isValidIngredient(savedValue) &&
+                    prevIngredients.every(([, , isValid]) => isValid)
+            );
+
             prevIngredients.splice(savedIndex, 1, [
                 ingredientId,
                 savedValue,
-                savedValue.trim().length > 0 ? true : IsValid,
+                isValidIngredient(savedValue) ? true : IsValid,
             ]);
 
             return [...prevIngredients];
         });
     };
+
+    const [formIsValid, setFormIsValid] = useState(false);
 
     const formSubmitHandler = e => {
         e.preventDefault();
@@ -140,7 +151,13 @@ function AddRecipeForm() {
                 onSaveIngredient={saveIngredientHandler}
             />
 
-            <Button btn uploadBtn type="submit">
+            <Button
+                btn
+                uploadBtn
+                type="submit"
+                // disabled={!formIsValid}
+                // btnDisabled={!formIsValid}
+            >
                 <svg>
                     <use href={iconUploadCloud}></use>
                 </svg>

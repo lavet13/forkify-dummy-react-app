@@ -34,7 +34,7 @@ function IngredientItem({ id, value, onSaveIngredient, isValid }) {
                 onChange={ingredientChangeHandler}
                 value={value}
                 type="text"
-                name={`ingredient-${id}`}
+                name={`ingredient-${id + 1}`}
                 placeholder="Format: 'Quantity,Unit,Description'"
             />
         </Div>

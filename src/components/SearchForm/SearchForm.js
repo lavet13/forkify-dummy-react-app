@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './SearchForm.module.css';
 import icons from '../../resources/icons.svg';
 import Button from '../UI/Button';
@@ -6,29 +6,25 @@ import Button from '../UI/Button';
 function SearchForm({ onSaveSearchData }) {
     const iconSearch = `${icons}#icon-search`;
 
-    const [enteredSearchField, setEnteredSearchField] = useState('');
-
-    const searchFieldChangeHandler = e => {
-        setEnteredSearchField(e.target.value);
-    };
+    const enteredSearchField = useRef();
 
     const formSubmitHandler = e => {
         e.preventDefault();
 
-        setEnteredSearchField('');
+        if (!enteredSearchField.current.value) return;
 
-        onSaveSearchData({ search: enteredSearchField });
+        onSaveSearchData({ search: enteredSearchField.current.value });
+
+        enteredSearchField.current.value = '';
     };
 
     return (
         <form onSubmit={formSubmitHandler} className={styles.search}>
             <input
                 type="text"
-                onChange={searchFieldChangeHandler}
-                value={enteredSearchField}
                 className={styles.search__field}
                 placeholder="Search over 1,000,000 recipes..."
-                required
+                ref={enteredSearchField}
             />
             <Button btn searchBtn type="submit">
                 <svg>

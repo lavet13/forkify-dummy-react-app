@@ -47,6 +47,13 @@ const Button = styled.button`
             }
         `}
 
+    ${({ btnDisabled }) =>
+        btnDisabled &&
+        css`
+            cursor: not-allowed;
+            background: #999999;
+        `}
+
     ${({ navBtn }) =>
         navBtn &&
         css`
