@@ -14,32 +14,13 @@ function App() {
         console.log(enteredSearch);
     };
 
-    const saveIdPreviewHandler = selectedId => {
-        console.log(selectedId);
-    };
-
-    const saveCurrentPageHandler = selectedPage => {
-        setCurrentPage(selectedPage);
-    };
-
-    const [currentPage, setCurrentPage] = useState(1);
-
     return (
         <div className={styles.container}>
             <Header>
                 <SearchForm onSaveSearchData={saveSearchDataHandler} />
                 <Nav />
             </Header>
-            <SearchResults>
-                <Results
-                    page={currentPage}
-                    onSaveIdPreview={saveIdPreviewHandler}
-                />
-                <Pagination
-                    page={currentPage}
-                    onSaveCurrentPage={saveCurrentPageHandler}
-                />
-            </SearchResults>
+            <SearchResults />
             <Recipe />
         </div>
     );

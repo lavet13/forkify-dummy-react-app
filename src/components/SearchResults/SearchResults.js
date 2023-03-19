@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './SearchResults.module.css';
+import Results from '../Results/Results';
+import Pagination from '../Pagination/Pagination';
 
-function SearchResults({ children }) {
-    return <div className={styles['search-results']}>{children}</div>;
+function SearchResults() {
+    const saveIdPreviewHandler = selectedId => {
+        console.log(selectedId);
+    };
+
+    const saveCurrentPageHandler = selectedPage => {
+        console.log(selectedPage);
+
+        setCurrentPage(selectedPage);
+    };
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    return (
+        <div className={styles['search-results']}>
+            <Results
+                page={currentPage}
+                onSaveIdPreview={saveIdPreviewHandler}
+            />
+            <Pagination
+                page={currentPage}
+                onSaveCurrentPage={saveCurrentPageHandler}
+            />
+        </div>
+    );
 }
 
 export default SearchResults;

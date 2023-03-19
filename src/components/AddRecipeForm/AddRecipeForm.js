@@ -15,7 +15,7 @@ function AddRecipeForm() {
     const isValidTitle = title => title.length >= 5;
     const validateTitleHandler = () => {
         setTitleIsValid(isValidTitle(enteredTitle));
-    }; 
+    };
 
     const [enteredSourceUrl, setEnteredSourceUrl] = useState('');
     const [sourceUrlIsValid, setSourceUrlIsValid] = useState(true);
@@ -56,78 +56,78 @@ function AddRecipeForm() {
         setEnteredTitle(e.target.value);
 
         setFormIsValid(
-            isValidTitle(e.target.value) && 
-            isValidSourceUrl(enteredSourceUrl) && 
-            isValidImage(enteredImage) && 
-            isValidPublisher(enteredPublisher) && 
-            isValidCookingTime(enteredCookingTime) && 
-            isValidServings(enteredServings) &&
-            ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
+            isValidTitle(e.target.value) &&
+                isValidSourceUrl(enteredSourceUrl) &&
+                isValidImage(enteredImage) &&
+                isValidPublisher(enteredPublisher) &&
+                isValidCookingTime(enteredCookingTime) &&
+                isValidServings(enteredServings) &&
+                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
         );
     };
     const sourceUrlChangeHandler = e => {
         setEnteredSourceUrl(e.target.value);
 
         setFormIsValid(
-            isValidTitle(enteredTitle) && 
-            isValidSourceUrl(e.target.value) && 
-            isValidImage(enteredImage) && 
-            isValidPublisher(enteredPublisher) && 
-            isValidCookingTime(enteredCookingTime) && 
-            isValidServings(enteredServings) &&
-            ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
+            isValidTitle(enteredTitle) &&
+                isValidSourceUrl(e.target.value) &&
+                isValidImage(enteredImage) &&
+                isValidPublisher(enteredPublisher) &&
+                isValidCookingTime(enteredCookingTime) &&
+                isValidServings(enteredServings) &&
+                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
         );
     };
     const imageChangeHandler = e => {
         setEnteredImage(e.target.value);
 
         setFormIsValid(
-            isValidTitle(enteredTitle) && 
-            isValidSourceUrl(enteredSourceUrl) && 
-            isValidImage(e.target.value) && 
-            isValidPublisher(enteredPublisher) && 
-            isValidCookingTime(enteredCookingTime) && 
-            isValidServings(enteredServings) &&
-            ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
+            isValidTitle(enteredTitle) &&
+                isValidSourceUrl(enteredSourceUrl) &&
+                isValidImage(e.target.value) &&
+                isValidPublisher(enteredPublisher) &&
+                isValidCookingTime(enteredCookingTime) &&
+                isValidServings(enteredServings) &&
+                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
         );
     };
     const publisherChangeHandler = e => {
         setEnteredPublisher(e.target.value);
-        
+
         setFormIsValid(
-            isValidTitle(enteredTitle) && 
-            isValidSourceUrl(enteredSourceUrl) && 
-            isValidImage(enteredImage) && 
-            isValidPublisher(e.target.value) && 
-            isValidCookingTime(enteredCookingTime) && 
-            isValidServings(enteredServings) &&
-            ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
+            isValidTitle(enteredTitle) &&
+                isValidSourceUrl(enteredSourceUrl) &&
+                isValidImage(enteredImage) &&
+                isValidPublisher(e.target.value) &&
+                isValidCookingTime(enteredCookingTime) &&
+                isValidServings(enteredServings) &&
+                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
         );
     };
     const cookingTimeChangeHandler = e => {
         setEnteredCookingTime(e.target.value);
 
         setFormIsValid(
-            isValidTitle(enteredTitle) && 
-            isValidSourceUrl(enteredSourceUrl) && 
-            isValidImage(enteredImage) && 
-            isValidPublisher(enteredPublisher) && 
-            isValidCookingTime(e.target.value) && 
-            isValidServings(enteredServings) &&
-            ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
+            isValidTitle(enteredTitle) &&
+                isValidSourceUrl(enteredSourceUrl) &&
+                isValidImage(enteredImage) &&
+                isValidPublisher(enteredPublisher) &&
+                isValidCookingTime(e.target.value) &&
+                isValidServings(enteredServings) &&
+                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
         );
     };
     const servingsChangeHandler = e => {
         setEnteredServings(e.target.value);
 
         setFormIsValid(
-            isValidTitle(enteredTitle) && 
-            isValidSourceUrl(enteredSourceUrl) && 
-            isValidImage(enteredImage) && 
-            isValidPublisher(enteredPublisher) && 
-            isValidCookingTime(enteredCookingTime) && 
-            isValidServings(e.target.value) &&
-            ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
+            isValidTitle(enteredTitle) &&
+                isValidSourceUrl(enteredSourceUrl) &&
+                isValidImage(enteredImage) &&
+                isValidPublisher(enteredPublisher) &&
+                isValidCookingTime(enteredCookingTime) &&
+                isValidServings(e.target.value) &&
+                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
         );
     };
 
@@ -147,13 +147,15 @@ function AddRecipeForm() {
 
             setFormIsValid(
                 isValidIngredient(savedValue) &&
-                prevIngredients.every(([, , isValid]) => isValid) &&
-                isValidTitle(enteredTitle) && 
-                isValidSourceUrl(enteredSourceUrl) && 
-                isValidImage(enteredImage) && 
-                isValidPublisher(enteredPublisher) && 
-                isValidCookingTime(enteredCookingTime) && 
-                isValidServings(enteredServings)
+                    prevIngredients.every(([, ingValue]) =>
+                        isValidIngredient(ingValue)
+                    ) &&
+                    isValidTitle(enteredTitle) &&
+                    isValidSourceUrl(enteredSourceUrl) &&
+                    isValidImage(enteredImage) &&
+                    isValidPublisher(enteredPublisher) &&
+                    isValidCookingTime(enteredCookingTime) &&
+                    isValidServings(enteredServings)
             );
 
             prevIngredients.splice(savedIndex, 1, [
@@ -172,7 +174,11 @@ function AddRecipeForm() {
         setIngredients(prevIngredients => {
             const [ingredientId] = prevIngredients[savedIndex];
 
-            prevIngredients.splice(savedIndex, 1, [ingredientId, savedValue, isValidIngredient(savedValue)]);
+            prevIngredients.splice(savedIndex, 1, [
+                ingredientId,
+                savedValue,
+                isValidIngredient(savedValue),
+            ]);
 
             return [...prevIngredients];
         });
@@ -183,16 +189,20 @@ function AddRecipeForm() {
     const formSubmitHandler = e => {
         e.preventDefault();
 
-        // FIXME add validation of title, sourceUrl, image, publisher, cookingTime, servings
         if (
-            ingredients.some(([, value]) => value.trim().length === 0) && 
-            isValidTitle(enteredTitle) && 
-            isValidSourceUrl(enteredSourceUrl) && 
-            isValidImage(enteredImage) && 
-            isValidPublisher(enteredPublisher) && 
-            isValidCookingTime(enteredCookingTime) && 
-            isValidServings(enteredServings)
-         )  return;
+            !(
+                ingredients.every(([, ingValue]) =>
+                    isValidIngredient(ingValue)
+                ) &&
+                isValidTitle(enteredTitle) &&
+                isValidSourceUrl(enteredSourceUrl) &&
+                isValidImage(enteredImage) &&
+                isValidPublisher(enteredPublisher) &&
+                isValidCookingTime(enteredCookingTime) &&
+                isValidServings(enteredServings)
+            )
+        )
+            return;
 
         const filledIngredients = ingredients.map(
             ([ingredientId, ingValue]) => [ingredientId, ingValue.trim()]
@@ -214,7 +224,9 @@ function AddRecipeForm() {
         setEnteredPublisher('');
         setEnteredCookingTime('');
         setEnteredServings('');
-        setIngredients(prevIngredients => prevIngredients.map(([ingredientId]) => [ingredientId, '', true]));
+        setIngredients(prevIngredients =>
+            prevIngredients.map(([ingredientId]) => [ingredientId, '', true])
+        );
         setFormIsValid(false);
 
         console.log(enteredData);

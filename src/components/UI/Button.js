@@ -105,6 +105,7 @@ const Button = styled.button`
             padding: 0.8rem 1.2rem;
             border-radius: 10rem;
             cursor: pointer;
+            user-select: none;
 
             display: flex;
             align-items: center;
