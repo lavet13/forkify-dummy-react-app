@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './AddRecipeForm.module.css';
 import icons from '../../resources/icons.svg';
 
@@ -11,124 +11,63 @@ function AddRecipeForm() {
 
     //////////////////////////////////////////////////////////
     const [enteredTitle, setEnteredTitle] = useState('');
-    const [titleIsValid, setTitleIsValid] = useState(true);
+    const titleChangeHandler = e => {
+        setEnteredTitle(e.target.value);
+    };
     const isValidTitle = title => title.length >= 5;
+    const [titleIsValid, setTitleIsValid] = useState(true);
     const validateTitleHandler = () => {
         setTitleIsValid(isValidTitle(enteredTitle));
     };
 
     const [enteredSourceUrl, setEnteredSourceUrl] = useState('');
-    const [sourceUrlIsValid, setSourceUrlIsValid] = useState(true);
+    const sourceUrlChangeHandler = e => {
+        setEnteredSourceUrl(e.target.value);
+    };
     const isValidSourceUrl = sourceUrl => sourceUrl.length >= 5;
+    const [sourceUrlIsValid, setSourceUrlIsValid] = useState(true);
     const validateSourceUrlHandler = () => {
         setSourceUrlIsValid(isValidSourceUrl(enteredSourceUrl));
     };
 
     const [enteredImage, setEnteredImage] = useState('');
-    const [imageIsValid, setImageIsValid] = useState(true);
+    const imageChangeHandler = e => {
+        setEnteredImage(e.target.value);
+    };
     const isValidImage = image => image.length >= 5;
+    const [imageIsValid, setImageIsValid] = useState(true);
     const validateImageHandler = () => {
         setImageIsValid(isValidImage(enteredImage));
     };
 
     const [enteredPublisher, setEnteredPublisher] = useState('');
-    const [publisherIsValid, setPublisherIsValid] = useState(true);
+    const publisherChangeHandler = e => {
+        setEnteredPublisher(e.target.value);
+    };
     const isValidPublisher = publisher => publisher.length >= 5;
+    const [publisherIsValid, setPublisherIsValid] = useState(true);
     const validatePublisherHandler = () => {
         setPublisherIsValid(isValidPublisher(enteredPublisher));
     };
 
     const [enteredCookingTime, setEnteredCookingTime] = useState('');
-    const [cookingTimeIsValid, setCookingTimeIsValid] = useState(true);
+    const cookingTimeChangeHandler = e => {
+        setEnteredCookingTime(e.target.value);
+    };
     const isValidCookingTime = cookingTime => +cookingTime > 0;
+    const [cookingTimeIsValid, setCookingTimeIsValid] = useState(true);
     const validateCookingTimeHandler = () => {
         setCookingTimeIsValid(isValidCookingTime(enteredCookingTime));
     };
 
     const [enteredServings, setEnteredServings] = useState('');
-    const [servingsIsValid, setServingsIsValid] = useState(true);
-    const isValidServings = servings => +servings > 0;
-    const validateServingsHandler = () => {
-        setServingsIsValid(isValidServings(enteredServings));
-    };
-
-    const titleChangeHandler = e => {
-        setEnteredTitle(e.target.value);
-
-        setFormIsValid(
-            isValidTitle(e.target.value) &&
-                isValidSourceUrl(enteredSourceUrl) &&
-                isValidImage(enteredImage) &&
-                isValidPublisher(enteredPublisher) &&
-                isValidCookingTime(enteredCookingTime) &&
-                isValidServings(enteredServings) &&
-                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
-        );
-    };
-    const sourceUrlChangeHandler = e => {
-        setEnteredSourceUrl(e.target.value);
-
-        setFormIsValid(
-            isValidTitle(enteredTitle) &&
-                isValidSourceUrl(e.target.value) &&
-                isValidImage(enteredImage) &&
-                isValidPublisher(enteredPublisher) &&
-                isValidCookingTime(enteredCookingTime) &&
-                isValidServings(enteredServings) &&
-                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
-        );
-    };
-    const imageChangeHandler = e => {
-        setEnteredImage(e.target.value);
-
-        setFormIsValid(
-            isValidTitle(enteredTitle) &&
-                isValidSourceUrl(enteredSourceUrl) &&
-                isValidImage(e.target.value) &&
-                isValidPublisher(enteredPublisher) &&
-                isValidCookingTime(enteredCookingTime) &&
-                isValidServings(enteredServings) &&
-                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
-        );
-    };
-    const publisherChangeHandler = e => {
-        setEnteredPublisher(e.target.value);
-
-        setFormIsValid(
-            isValidTitle(enteredTitle) &&
-                isValidSourceUrl(enteredSourceUrl) &&
-                isValidImage(enteredImage) &&
-                isValidPublisher(e.target.value) &&
-                isValidCookingTime(enteredCookingTime) &&
-                isValidServings(enteredServings) &&
-                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
-        );
-    };
-    const cookingTimeChangeHandler = e => {
-        setEnteredCookingTime(e.target.value);
-
-        setFormIsValid(
-            isValidTitle(enteredTitle) &&
-                isValidSourceUrl(enteredSourceUrl) &&
-                isValidImage(enteredImage) &&
-                isValidPublisher(enteredPublisher) &&
-                isValidCookingTime(e.target.value) &&
-                isValidServings(enteredServings) &&
-                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
-        );
-    };
     const servingsChangeHandler = e => {
         setEnteredServings(e.target.value);
-
-        setFormIsValid(
-            isValidTitle(enteredTitle) &&
-                isValidSourceUrl(enteredSourceUrl) &&
-                isValidImage(enteredImage) &&
-                isValidPublisher(enteredPublisher) &&
-                isValidCookingTime(enteredCookingTime) &&
-                isValidServings(e.target.value) &&
-                ingredients.every(([, ingValue]) => isValidIngredient(ingValue))
-        );
+    };
+    const isValidServings = servings => +servings > 0;
+    const [servingsIsValid, setServingsIsValid] = useState(true);
+    const validateServingsHandler = () => {
+        setServingsIsValid(isValidServings(enteredServings));
     };
 
     // ingredients: key, value, isValid
@@ -143,41 +82,12 @@ function AddRecipeForm() {
         const [savedIndex, savedValue] = savedIngredient;
 
         setIngredients(prevIngredients => {
-            const [ingredientId, , isValid] = prevIngredients[savedIndex];
-
-            setFormIsValid(
-                isValidIngredient(savedValue) &&
-                    prevIngredients.every(([, ingValue]) =>
-                        isValidIngredient(ingValue)
-                    ) &&
-                    isValidTitle(enteredTitle) &&
-                    isValidSourceUrl(enteredSourceUrl) &&
-                    isValidImage(enteredImage) &&
-                    isValidPublisher(enteredPublisher) &&
-                    isValidCookingTime(enteredCookingTime) &&
-                    isValidServings(enteredServings)
-            );
-
-            prevIngredients.splice(savedIndex, 1, [
-                ingredientId,
-                savedValue,
-                isValidIngredient(savedValue) ? true : isValid,
-            ]);
-
-            return [...prevIngredients];
-        });
-    };
-
-    const blurIngredientHandler = savedIngredient => {
-        const [savedIndex, savedValue] = savedIngredient;
-
-        setIngredients(prevIngredients => {
             const [ingredientId] = prevIngredients[savedIndex];
 
             prevIngredients.splice(savedIndex, 1, [
                 ingredientId,
                 savedValue,
-                isValidIngredient(savedValue),
+                isValidIngredient(savedValue) ? true : false,
             ]);
 
             return [...prevIngredients];
@@ -185,6 +95,26 @@ function AddRecipeForm() {
     };
 
     const [formIsValid, setFormIsValid] = useState(false);
+
+    useEffect(() => {
+        setFormIsValid(
+            ingredients.every(([, ingValue]) => isValidIngredient(ingValue)) &&
+                isValidTitle(enteredTitle) &&
+                isValidSourceUrl(enteredSourceUrl) &&
+                isValidImage(enteredImage) &&
+                isValidPublisher(enteredPublisher) &&
+                isValidCookingTime(enteredCookingTime) &&
+                isValidServings(enteredServings)
+        );
+    }, [
+        enteredTitle,
+        enteredSourceUrl,
+        enteredImage,
+        enteredPublisher,
+        enteredCookingTime,
+        enteredServings,
+        ingredients,
+    ]);
 
     const formSubmitHandler = e => {
         e.preventDefault();
@@ -306,21 +236,30 @@ function AddRecipeForm() {
             <Ingredients
                 items={ingredients}
                 onSaveIngredient={saveIngredientHandler}
-                onBlurIngredient={blurIngredientHandler}
             />
 
-            <Button
-                btn
-                uploadBtn
-                type="submit"
-                disabled={!formIsValid}
-                btnDisabled={!formIsValid}
-            >
-                <svg>
-                    <use href={iconUploadCloud}></use>
-                </svg>
-                <span>Upload</span>
-            </Button>
+            {formIsValid && (
+                <Button btn uploadBtn type="submit">
+                    <svg>
+                        <use href={iconUploadCloud}></use>
+                    </svg>
+                    <span>Upload</span>
+                </Button>
+            )}
+            {!formIsValid && (
+                <Button
+                    btn
+                    uploadBtn
+                    type="submit"
+                    disabled={!formIsValid}
+                    btnDisabled={!formIsValid}
+                >
+                    <svg>
+                        <use href={iconUploadCloud}></use>
+                    </svg>
+                    <span>Upload</span>
+                </Button>
+            )}
         </form>
     );
 }
