@@ -94,6 +94,22 @@ function AddRecipeForm() {
         });
     };
 
+    const blurIngredientHandler = savedIngredient => {
+        const [savedIndex, savedValue] = savedIngredient;
+
+        setIngredients(prevIngredients => {
+            const [ingredientId] = prevIngredients[savedIndex];
+
+            prevIngredients.splice(savedIndex, 1, [
+                ingredientId,
+                savedValue,
+                isValidIngredient(savedValue) ? true : false,
+            ]);
+
+            return [...prevIngredients];
+        });
+    };
+
     const [formIsValid, setFormIsValid] = useState(false);
 
     useEffect(() => {
@@ -236,6 +252,7 @@ function AddRecipeForm() {
             <Ingredients
                 items={ingredients}
                 onSaveIngredient={saveIngredientHandler}
+                onBlurIngredient={blurIngredientHandler}
             />
 
             {formIsValid && (
