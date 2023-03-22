@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import styles from './AddRecipeForm.module.css';
 import icons from '../../resources/icons.svg';
 
@@ -10,64 +10,104 @@ function AddRecipeForm() {
     const iconUploadCloud = `${icons}#icon-upload-cloud`;
 
     //////////////////////////////////////////////////////////
-    const [enteredTitle, setEnteredTitle] = useState('');
-    const titleChangeHandler = e => {
-        setEnteredTitle(e.target.value);
+    const initialState = { value: '', isValid: null };
+    const reducerHelper = (state, action, validationHandler) => {
+        switch (action.type) {
+            case 'USER_INPUT':
+                return {
+                    value: action.payload,
+                    isValid: validationHandler(action.payload),
+                };
+
+            case 'INPUT_BLUR':
+                return {
+                    value: state.value,
+                    isValid: validationHandler(state.value),
+                };
+            default:
+                return state;
+        }
     };
+
     const isValidTitle = title => title.length >= 5;
-    const [titleIsValid, setTitleIsValid] = useState(true);
+    const titleReducer = (state, action) =>
+        reducerHelper(state, action, isValidTitle);
+
+    const [titleState, dispatchTitle] = useReducer(titleReducer, initialState);
+    const titleChangeHandler = e => {
+        dispatchTitle({ type: 'USER_INPUT', payload: e.target.value });
+    };
     const validateTitleHandler = () => {
-        setTitleIsValid(isValidTitle(enteredTitle));
+        dispatchTitle({ type: 'INPUT_BLUR' });
     };
 
-    const [enteredSourceUrl, setEnteredSourceUrl] = useState('');
-    const sourceUrlChangeHandler = e => {
-        setEnteredSourceUrl(e.target.value);
-    };
     const isValidSourceUrl = sourceUrl => sourceUrl.length >= 5;
-    const [sourceUrlIsValid, setSourceUrlIsValid] = useState(true);
+    const sourceUrlReducer = (state, action) =>
+        reducerHelper(state, action, isValidSourceUrl);
+
+    const [sourceUrlState, dispatchSourceUrl] = useReducer(
+        sourceUrlReducer,
+        initialState
+    );
+
+    const sourceUrlChangeHandler = e => {
+        dispatchSourceUrl({ type: 'USER_INPUT', payload: e.target.value });
+    };
     const validateSourceUrlHandler = () => {
-        setSourceUrlIsValid(isValidSourceUrl(enteredSourceUrl));
+        dispatchSourceUrl({ type: 'INPUT_BLUR' });
     };
 
-    const [enteredImage, setEnteredImage] = useState('');
-    const imageChangeHandler = e => {
-        setEnteredImage(e.target.value);
-    };
     const isValidImage = image => image.length >= 5;
-    const [imageIsValid, setImageIsValid] = useState(true);
+    const imageReducer = (state, action) =>
+        reducerHelper(state, action, isValidImage);
+    const [imageState, dispatchImage] = useReducer(imageReducer, initialState);
+    const imageChangeHandler = e => {
+        dispatchImage({ type: 'USER_INPUT', payload: e.target.value });
+    };
     const validateImageHandler = () => {
-        setImageIsValid(isValidImage(enteredImage));
+        dispatchImage({ type: 'INPUT_BLUR' });
     };
 
-    const [enteredPublisher, setEnteredPublisher] = useState('');
-    const publisherChangeHandler = e => {
-        setEnteredPublisher(e.target.value);
-    };
     const isValidPublisher = publisher => publisher.length >= 5;
-    const [publisherIsValid, setPublisherIsValid] = useState(true);
+    const publisherReducer = (state, action) =>
+        reducerHelper(state, action, isValidPublisher);
+    const [publisherState, dispatchPublisher] = useReducer(
+        publisherReducer,
+        initialState
+    );
+    const publisherChangeHandler = e => {
+        dispatchPublisher({ type: 'USER_INPUT', payload: e.target.value });
+    };
     const validatePublisherHandler = () => {
-        setPublisherIsValid(isValidPublisher(enteredPublisher));
+        dispatchPublisher({ type: 'INPUT_BLUR' });
     };
 
-    const [enteredCookingTime, setEnteredCookingTime] = useState('');
-    const cookingTimeChangeHandler = e => {
-        setEnteredCookingTime(e.target.value);
-    };
     const isValidCookingTime = cookingTime => +cookingTime > 0;
-    const [cookingTimeIsValid, setCookingTimeIsValid] = useState(true);
+    const cookingTimeReducer = (state, action) =>
+        reducerHelper(state, action, isValidCookingTime);
+    const [cookingTimeState, dispatchCookingTime] = useReducer(
+        cookingTimeReducer,
+        initialState
+    );
+    const cookingTimeChangeHandler = e => {
+        dispatchCookingTime({ type: 'USER_INPUT', payload: e.target.value });
+    };
     const validateCookingTimeHandler = () => {
-        setCookingTimeIsValid(isValidCookingTime(enteredCookingTime));
+        dispatchCookingTime({ type: 'INPUT_BLUR' });
     };
 
-    const [enteredServings, setEnteredServings] = useState('');
+    const isValidServings = servings => servings.length >= 5;
+    const servingsReducer = (state, action) =>
+        reducerHelper(state, action, isValidServings);
+    const [servingsState, dispatchServings] = useReducer(
+        servingsReducer,
+        initialState
+    );
     const servingsChangeHandler = e => {
-        setEnteredServings(e.target.value);
+        dispatchServings({ type: 'USER_INPUT', payload: e.target.value });
     };
-    const isValidServings = servings => +servings > 0;
-    const [servingsIsValid, setServingsIsValid] = useState(true);
     const validateServingsHandler = () => {
-        setServingsIsValid(isValidServings(enteredServings));
+        dispatchServings({ type: 'INPUT_BLUR' });
     };
 
     // ingredients: key, value, isValid
@@ -112,23 +152,31 @@ function AddRecipeForm() {
 
     const [formIsValid, setFormIsValid] = useState(false);
 
+    const { isValid: titleIsValid } = titleState;
+    const { isValid: sourceUrlIsValid } = sourceUrlState;
+    const { isValid: imageIsValid } = imageState;
+    const { isValid: publisherIsValid } = publisherState;
+    const { isValid: cookingTimeIsValid } = cookingTimeState;
+    const { isValid: servingsIsValid } = servingsState;
+
     useEffect(() => {
+        console.log('EFFECT RUNNING');
         setFormIsValid(
             ingredients.every(([, ingValue]) => isValidIngredient(ingValue)) &&
-                isValidTitle(enteredTitle) &&
-                isValidSourceUrl(enteredSourceUrl) &&
-                isValidImage(enteredImage) &&
-                isValidPublisher(enteredPublisher) &&
-                isValidCookingTime(enteredCookingTime) &&
-                isValidServings(enteredServings)
+                titleIsValid &&
+                sourceUrlIsValid &&
+                imageIsValid &&
+                publisherIsValid &&
+                cookingTimeIsValid &&
+                servingsIsValid
         );
     }, [
-        enteredTitle,
-        enteredSourceUrl,
-        enteredImage,
-        enteredPublisher,
-        enteredCookingTime,
-        enteredServings,
+        titleIsValid,
+        sourceUrlIsValid,
+        imageIsValid,
+        publisherIsValid,
+        cookingTimeIsValid,
+        servingsIsValid,
         ingredients,
     ]);
 
@@ -140,12 +188,12 @@ function AddRecipeForm() {
                 ingredients.every(([, ingValue]) =>
                     isValidIngredient(ingValue)
                 ) &&
-                isValidTitle(enteredTitle) &&
-                isValidSourceUrl(enteredSourceUrl) &&
-                isValidImage(enteredImage) &&
-                isValidPublisher(enteredPublisher) &&
-                isValidCookingTime(enteredCookingTime) &&
-                isValidServings(enteredServings)
+                titleState.isValid &&
+                sourceUrlState.isValid &&
+                imageState.isValid &&
+                publisherState.isValid &&
+                cookingTimeState.isValid &&
+                servingsState.isValid
             )
         )
             return;
@@ -155,21 +203,21 @@ function AddRecipeForm() {
         );
 
         const enteredData = {
-            title: enteredTitle.trim(),
-            sourceUrl: enteredSourceUrl.trim(),
-            image: enteredImage.trim(),
-            publisher: enteredPublisher.trim(),
-            cookingTime: +enteredCookingTime,
-            servings: +enteredServings,
+            title: titleState.value.trim(),
+            sourceUrl: sourceUrlState.value.trim(),
+            image: imageState.value.trim(),
+            publisher: publisherState.value.trim(),
+            cookingTime: +cookingTimeState.value,
+            servings: +servingsState.value,
             ...Object.fromEntries(filledIngredients),
         };
 
-        setEnteredTitle('');
-        setEnteredSourceUrl('');
-        setEnteredImage('');
-        setEnteredPublisher('');
-        setEnteredCookingTime('');
-        setEnteredServings('');
+        dispatchTitle(initialState);
+        dispatchSourceUrl(initialState);
+        dispatchImage(initialState);
+        dispatchPublisher(initialState);
+        dispatchCookingTime(initialState);
+        dispatchServings(initialState);
         setIngredients(prevIngredients =>
             prevIngredients.map(([ingredientId]) => [ingredientId, '', true])
         );
@@ -182,67 +230,73 @@ function AddRecipeForm() {
         <form onSubmit={formSubmitHandler} className={styles.upload}>
             <div className={styles.upload__column}>
                 <h3 className={styles.upload__heading}>Recipe data</h3>
-                <Control invalid={!titleIsValid && !formIsValid}>
+                <Control invalid={titleState.isValid === false && !formIsValid}>
                     <label>Title</label>
                     <input
                         onChange={titleChangeHandler}
                         onBlur={validateTitleHandler}
-                        value={enteredTitle}
+                        value={titleState.value}
                         name="title"
                         type="text"
                     />
                 </Control>
 
-                <Control invalid={!sourceUrlIsValid && !formIsValid}>
+                <Control
+                    invalid={sourceUrlState.isValid === false && !formIsValid}
+                >
                     <label>URL</label>
                     <input
                         onChange={sourceUrlChangeHandler}
                         onBlur={validateSourceUrlHandler}
-                        value={enteredSourceUrl}
+                        value={sourceUrlState.value}
                         name="sourceUrl"
                         type="text"
                     />
                 </Control>
 
-                <Control invalid={!imageIsValid && !formIsValid}>
+                <Control invalid={imageState.isValid === false && !formIsValid}>
                     <label>Image URL</label>
                     <input
                         onChange={imageChangeHandler}
                         onBlur={validateImageHandler}
-                        value={enteredImage}
+                        value={imageState.value}
                         name="image"
                         type="text"
                     />
                 </Control>
 
-                <Control invalid={!publisherIsValid && !formIsValid}>
+                <Control
+                    invalid={publisherState.isValid === false && !formIsValid}
+                >
                     <label>Publisher</label>
                     <input
                         onChange={publisherChangeHandler}
                         onBlur={validatePublisherHandler}
-                        value={enteredPublisher}
+                        value={publisherState.value}
                         name="publisher"
                         type="text"
                     />
                 </Control>
 
-                <Control invalid={!cookingTimeIsValid && !formIsValid}>
+                <Control
+                    invalid={cookingTimeState.isValid === false && !formIsValid}
+                >
                     <label>Prep time</label>
                     <input
                         onChange={cookingTimeChangeHandler}
                         onBlur={validateCookingTimeHandler}
-                        value={enteredCookingTime}
+                        value={cookingTimeState.value}
                         name="cookingTime"
                         type="number"
                     />
                 </Control>
 
-                <Control invalid={!servingsIsValid && !formIsValid}>
+                <Control invalid={servingsState.isValid && !formIsValid}>
                     <label>Servings</label>
                     <input
                         onChange={servingsChangeHandler}
                         onBlur={validateServingsHandler}
-                        value={enteredServings}
+                        value={servingsState.value}
                         name="servings"
                         type="number"
                     />
