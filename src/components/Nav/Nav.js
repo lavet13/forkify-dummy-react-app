@@ -7,7 +7,7 @@ import icons from '../../resources/icons.svg';
 import Button from '../UI/Button';
 import AddRecipeWindow from '../AddRecipeWindow/AddRecipeWindow';
 
-function Nav() {
+const Nav = () => {
     const iconEdit = `${icons}#icon-edit`;
     const iconBookmark = `${icons}#icon-bookmark`;
 
@@ -46,6 +46,6 @@ function Nav() {
             </ul>
         </nav>
     );
-}
+};
 
 export default Nav;

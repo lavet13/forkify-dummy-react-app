@@ -7,17 +7,17 @@ import icons from '../../resources/icons.svg';
 import Button from '../UI/Button';
 import A from '../UI/A';
 
-function Recipe() {
-    const iconClock = `${icons}#icon-clock`;
-    const iconUsers = `${icons}#icon-users`;
-    const iconUser = `${icons}#icon-user`;
-    const iconMinusCircle = `${icons}#icon-minus-circle`;
-    const iconPlusCircle = `${icons}#icon-plus-circle`;
-    const iconBookmarkFill = `${icons}#icon-bookmark-fill`;
-    const iconBookmarkUnFill = `${icons}#icon-bookmark`;
-    const iconCheck = `${icons}#icon-check`;
-    const iconArrowRight = `${icons}#icon-arrow-right`;
+const iconClock = `${icons}#icon-clock`;
+const iconUsers = `${icons}#icon-users`;
+const iconUser = `${icons}#icon-user`;
+const iconMinusCircle = `${icons}#icon-minus-circle`;
+const iconPlusCircle = `${icons}#icon-plus-circle`;
+const iconBookmarkFill = `${icons}#icon-bookmark-fill`;
+const iconBookmarkUnFill = `${icons}#icon-bookmark`;
+const iconCheck = `${icons}#icon-check`;
+const iconArrowRight = `${icons}#icon-arrow-right`;
 
+const Recipe = () => {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const bookmarkChangeHandler = () => {
         setIsBookmarked(isBookmarked => !isBookmarked);
@@ -35,7 +35,7 @@ function Recipe() {
     };
 
     return (
-        <div>
+        <div className={styles.recipe}>
             <Message text="Start by searching for a recipe or an ingredient. Have fun!"></Message>
             <figure className={styles.recipe__fig}>
                 {/* <img
@@ -152,6 +152,6 @@ function Recipe() {
             </div>
         </div>
     );
-}
+};
 
 export default Recipe;

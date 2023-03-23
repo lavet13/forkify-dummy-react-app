@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './AddRecipeWindow.module.css';
 import AddRecipeForm from '../AddRecipeForm/AddRecipeForm';
-import Backdrop from './Backdrop';
+import Backdrop from '../UI/Backdrop';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
 
-function AddRecipeWindow({ onCancel }) {
+const AddRecipeWindow = ({ onCancel }) => {
     return (
         <>
             {ReactDOM.createPortal(
@@ -24,6 +24,6 @@ function AddRecipeWindow({ onCancel }) {
             )}
         </>
     );
-}
+};
 
 export default AddRecipeWindow;

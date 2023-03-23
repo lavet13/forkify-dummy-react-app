@@ -5,8 +5,9 @@ import icons from '../../resources/icons.svg';
 import Button from '../UI/Button';
 import Ingredients from '../Ingredients/Ingredients';
 import Control from '../UI/Control';
+import IngredientsCount from '../Ingredients/IngredientsCount';
 
-function AddRecipeForm() {
+const AddRecipeForm = () => {
     const iconUploadCloud = `${icons}#icon-upload-cloud`;
 
     //////////////////////////////////////////////////////////
@@ -24,6 +25,10 @@ function AddRecipeForm() {
                     value: state.value,
                     isValid: validationHandler(state.value),
                 };
+
+            case 'CLEAR_INPUT':
+                return initialState;
+
             default:
                 return state;
         }
@@ -82,7 +87,7 @@ function AddRecipeForm() {
         dispatchPublisher({ type: 'INPUT_BLUR' });
     };
 
-    const isValidCookingTime = cookingTime => +cookingTime > 0;
+    const isValidCookingTime = cookingTime => +cookingTime > 30;
     const cookingTimeReducer = (state, action) =>
         reducerHelper(state, action, isValidCookingTime);
     const [cookingTimeState, dispatchCookingTime] = useReducer(
@@ -96,7 +101,7 @@ function AddRecipeForm() {
         dispatchCookingTime({ type: 'INPUT_BLUR' });
     };
 
-    const isValidServings = servings => servings.length >= 5;
+    const isValidServings = servings => +servings > 0;
     const servingsReducer = (state, action) =>
         reducerHelper(state, action, isValidServings);
     const [servingsState, dispatchServings] = useReducer(
@@ -110,44 +115,81 @@ function AddRecipeForm() {
         dispatchServings({ type: 'INPUT_BLUR' });
     };
 
-    // ingredients: key, value, isValid
-    const [ingredients, setIngredients] = useState(
-        Array.from({ length: 6 }, (_, i) => [`ingredient-${i + 1}`, '', true])
-    );
+    const addIngredientHandler = () => {
+        dispatchIngredients({ type: 'ADD_INGREDIENT' });
+    };
 
+    const deleteIngredientHandler = deleteId => {
+        dispatchIngredients({ type: 'REMOVE_INGREDIENT', payload: deleteId });
+    };
+
+    // ingredients: key, value, isValid
+    const initialIngredientsState = Array.from({ length: 6 }, (_, i) => [
+        `ingredient-${i + 1}`,
+        '',
+        null,
+    ]);
     const isValidIngredient = ing =>
         ing.trim().length > 0 && ing.split(',').length > 2;
 
-    const saveIngredientHandler = savedIngredient => {
-        const [savedIndex, savedValue] = savedIngredient;
+    const ingredientsReducer = (state, action) => {
+        switch (action.type) {
+            case 'USER_INPUT': {
+                const [savedIndex, savedValue] = action.payload;
 
-        setIngredients(prevIngredients => {
-            const [ingredientId] = prevIngredients[savedIndex];
+                const [ingredientId] = state[savedIndex];
+                state.splice(savedIndex, 1, [
+                    ingredientId,
+                    savedValue,
+                    isValidIngredient(savedValue),
+                ]);
+                return [...state];
+            }
 
-            prevIngredients.splice(savedIndex, 1, [
-                ingredientId,
-                savedValue,
-                isValidIngredient(savedValue) ? true : false,
-            ]);
+            case 'INPUT_BLUR': {
+                const savedIndex = action.payload;
+                const [ingredientId, ingValue] = state[savedIndex];
+                state.splice(savedIndex, 1, [
+                    ingredientId,
+                    ingValue,
+                    isValidIngredient(ingValue),
+                ]);
 
-            return [...prevIngredients];
-        });
+                return [...state];
+            }
+
+            case 'CLEAR_INPUT': {
+                return initialIngredientsState;
+            }
+
+            case 'ADD_INGREDIENT': {
+                return [...state, [`ingredient-${state.length + 1}`, '', null]];
+            }
+
+            case 'REMOVE_INGREDIENT': {
+                const deleteId = action.payload;
+                console.log(deleteId);
+                state.splice(deleteId, 1);
+
+                return [...state];
+            }
+
+            default:
+                return state;
+        }
     };
 
-    const blurIngredientHandler = savedIngredient => {
-        const [savedIndex, savedValue] = savedIngredient;
+    const [ingredientsState, dispatchIngredients] = useReducer(
+        ingredientsReducer,
+        initialIngredientsState
+    );
 
-        setIngredients(prevIngredients => {
-            const [ingredientId] = prevIngredients[savedIndex];
+    const saveIngredientHandler = savedIngredient => {
+        dispatchIngredients({ type: 'USER_INPUT', payload: savedIngredient });
+    };
 
-            prevIngredients.splice(savedIndex, 1, [
-                ingredientId,
-                savedValue,
-                isValidIngredient(savedValue) ? true : false,
-            ]);
-
-            return [...prevIngredients];
-        });
+    const blurIngredientHandler = savedId => {
+        dispatchIngredients({ type: 'INPUT_BLUR', payload: savedId });
     };
 
     const [formIsValid, setFormIsValid] = useState(false);
@@ -158,11 +200,14 @@ function AddRecipeForm() {
     const { isValid: publisherIsValid } = publisherState;
     const { isValid: cookingTimeIsValid } = cookingTimeState;
     const { isValid: servingsIsValid } = servingsState;
+    const ingredientsIsValid = ingredientsState
+        .map(([, , isValid]) => isValid)
+        .every(isValid => isValid);
 
     useEffect(() => {
         console.log('EFFECT RUNNING');
         setFormIsValid(
-            ingredients.every(([, ingValue]) => isValidIngredient(ingValue)) &&
+            ingredientsIsValid &&
                 titleIsValid &&
                 sourceUrlIsValid &&
                 imageIsValid &&
@@ -177,7 +222,7 @@ function AddRecipeForm() {
         publisherIsValid,
         cookingTimeIsValid,
         servingsIsValid,
-        ingredients,
+        ingredientsIsValid,
     ]);
 
     const formSubmitHandler = e => {
@@ -185,9 +230,7 @@ function AddRecipeForm() {
 
         if (
             !(
-                ingredients.every(([, ingValue]) =>
-                    isValidIngredient(ingValue)
-                ) &&
+                ingredientsState.every(([, , isValid]) => isValid) &&
                 titleState.isValid &&
                 sourceUrlState.isValid &&
                 imageState.isValid &&
@@ -198,7 +241,7 @@ function AddRecipeForm() {
         )
             return;
 
-        const filledIngredients = ingredients.map(
+        const filledIngredients = ingredientsState.map(
             ([ingredientId, ingValue]) => [ingredientId, ingValue.trim()]
         );
 
@@ -212,16 +255,13 @@ function AddRecipeForm() {
             ...Object.fromEntries(filledIngredients),
         };
 
-        dispatchTitle(initialState);
-        dispatchSourceUrl(initialState);
-        dispatchImage(initialState);
-        dispatchPublisher(initialState);
-        dispatchCookingTime(initialState);
-        dispatchServings(initialState);
-        setIngredients(prevIngredients =>
-            prevIngredients.map(([ingredientId]) => [ingredientId, '', true])
-        );
-        setFormIsValid(false);
+        dispatchTitle({ type: 'CLEAR_INPUT' });
+        dispatchSourceUrl({ type: 'CLEAR_INPUT' });
+        dispatchImage({ type: 'CLEAR_INPUT' });
+        dispatchPublisher({ type: 'CLEAR_INPUT' });
+        dispatchCookingTime({ type: 'CLEAR_INPUT' });
+        dispatchServings({ type: 'CLEAR_INPUT' });
+        dispatchIngredients({ type: 'CLEAR_INPUT' });
 
         console.log(enteredData);
     };
@@ -231,12 +271,12 @@ function AddRecipeForm() {
             <div className={styles.upload__column}>
                 <h3 className={styles.upload__heading}>Recipe data</h3>
                 <Control invalid={titleState.isValid === false && !formIsValid}>
-                    <label>Title</label>
+                    <label htmlFor="title">Title</label>
                     <input
                         onChange={titleChangeHandler}
                         onBlur={validateTitleHandler}
                         value={titleState.value}
-                        name="title"
+                        id="title"
                         type="text"
                     />
                 </Control>
@@ -244,23 +284,23 @@ function AddRecipeForm() {
                 <Control
                     invalid={sourceUrlState.isValid === false && !formIsValid}
                 >
-                    <label>URL</label>
+                    <label htmlFor="sourceUrl">URL</label>
                     <input
                         onChange={sourceUrlChangeHandler}
                         onBlur={validateSourceUrlHandler}
                         value={sourceUrlState.value}
-                        name="sourceUrl"
+                        id="sourceUrl"
                         type="text"
                     />
                 </Control>
 
                 <Control invalid={imageState.isValid === false && !formIsValid}>
-                    <label>Image URL</label>
+                    <label htmlFor="image">Image URL</label>
                     <input
                         onChange={imageChangeHandler}
                         onBlur={validateImageHandler}
                         value={imageState.value}
-                        name="image"
+                        id="image"
                         type="text"
                     />
                 </Control>
@@ -268,12 +308,12 @@ function AddRecipeForm() {
                 <Control
                     invalid={publisherState.isValid === false && !formIsValid}
                 >
-                    <label>Publisher</label>
+                    <label htmlFor="publisher">Publisher</label>
                     <input
                         onChange={publisherChangeHandler}
                         onBlur={validatePublisherHandler}
                         value={publisherState.value}
-                        name="publisher"
+                        id="publisher"
                         type="text"
                     />
                 </Control>
@@ -281,58 +321,53 @@ function AddRecipeForm() {
                 <Control
                     invalid={cookingTimeState.isValid === false && !formIsValid}
                 >
-                    <label>Prep time</label>
+                    <label htmlFor="cookingTime">Prep time</label>
                     <input
                         onChange={cookingTimeChangeHandler}
                         onBlur={validateCookingTimeHandler}
                         value={cookingTimeState.value}
-                        name="cookingTime"
+                        id="cookingTime"
                         type="number"
                     />
                 </Control>
 
-                <Control invalid={servingsState.isValid && !formIsValid}>
-                    <label>Servings</label>
+                <Control
+                    invalid={servingsState.isValid === false && !formIsValid}
+                >
+                    <label htmlFor="servings">Servings</label>
                     <input
                         onChange={servingsChangeHandler}
                         onBlur={validateServingsHandler}
                         value={servingsState.value}
-                        name="servings"
+                        id="servings"
                         type="number"
                     />
                 </Control>
             </div>
 
             <Ingredients
-                items={ingredients}
+                ingredients={ingredientsState}
+                onDeleteIngredient={deleteIngredientHandler}
                 onSaveIngredient={saveIngredientHandler}
                 onBlurIngredient={blurIngredientHandler}
             />
 
-            {formIsValid && (
-                <Button btn uploadBtn type="submit">
-                    <svg>
-                        <use href={iconUploadCloud}></use>
-                    </svg>
-                    <span>Upload</span>
-                </Button>
-            )}
-            {!formIsValid && (
-                <Button
-                    btn
-                    uploadBtn
-                    type="submit"
-                    disabled={!formIsValid}
-                    btnDisabled={!formIsValid}
-                >
-                    <svg>
-                        <use href={iconUploadCloud}></use>
-                    </svg>
-                    <span>Upload</span>
-                </Button>
-            )}
+            <IngredientsCount onAddingIngredient={addIngredientHandler} />
+
+            <Button
+                btn
+                uploadBtn
+                type="submit"
+                disabled={!formIsValid}
+                btnDisabled={!formIsValid}
+            >
+                <svg>
+                    <use href={iconUploadCloud}></use>
+                </svg>
+                <span>Upload</span>
+            </Button>
         </form>
     );
-}
+};
 
 export default AddRecipeForm;

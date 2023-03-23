@@ -1,6 +1,8 @@
 .card {
+    overflow-y: auto;
     max-width: 100rem;
     width: 90%;
+    max-height: 90vh;
 
     background-color: white;
     border-radius: 9px;

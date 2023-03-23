@@ -3,7 +3,7 @@ import Message from '../UI/Message';
 import BookmarkItem from './BookmarkItem';
 import styles from './Bookmarks.module.css';
 
-function Bookmarks() {
+const Bookmarks = () => {
     return (
         <div className={styles.bookmarks}>
             <ul className={styles.bookmarks__list}>
@@ -17,6 +17,6 @@ function Bookmarks() {
             </ul>
         </div>
     );
-}
+};
 
 export default Bookmarks;

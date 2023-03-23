@@ -2,11 +2,16 @@ import React from 'react';
 import IngredientItem from './IngredientItem';
 import styles from '../AddRecipeForm/AddRecipeForm.module.css';
 
-function Ingredients({ items, onSaveIngredient, onBlurIngredient }) {
+const Ingredients = ({
+    ingredients,
+    onSaveIngredient,
+    onBlurIngredient,
+    onDeleteIngredient,
+}) => {
     return (
         <div className={styles.upload__column}>
             <h3 className={styles.upload__heading}>Ingredients</h3>
-            {items.map(([ingredientId, value, isValid], i) => (
+            {ingredients.map(([ingredientId, value, isValid], i) => (
                 <IngredientItem
                     key={ingredientId}
                     id={i}
@@ -14,10 +19,11 @@ function Ingredients({ items, onSaveIngredient, onBlurIngredient }) {
                     isValid={isValid}
                     onSaveIngredient={onSaveIngredient}
                     onBlurIngredient={onBlurIngredient}
+                    onDeleteIngredient={onDeleteIngredient}
                 />
             ))}
         </div>
     );
-}
+};
 
 export default Ingredients;

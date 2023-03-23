@@ -4,7 +4,7 @@ import styles from './Pagination.module.css';
 import icons from '../../resources/icons.svg';
 import Button from '../UI/Button';
 
-function Pagination({ onSaveCurrentPage, page }) {
+const Pagination = ({ onSaveCurrentPage, page }) => {
     const iconArrowLeft = `${icons}#icon-arrow-left`;
     const iconArrowRight = `${icons}#icon-arrow-right`;
 
@@ -34,6 +34,6 @@ function Pagination({ onSaveCurrentPage, page }) {
             </Button>
         </div>
     );
-}
+};
 
 export default Pagination;

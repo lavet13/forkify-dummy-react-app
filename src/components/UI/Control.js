@@ -1,10 +1,9 @@
-
 import styled, { css } from 'styled-components';
 
 const Control = styled.div`
     display: grid;
     grid-column: 1 / span 2;
-    grid-template-columns: 1fr 2.8fr;
+    grid-template-columns: 1fr 2.8fr 0.2fr;
     align-items: center;
     gap: 1.5rem;
 
