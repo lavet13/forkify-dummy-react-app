@@ -115,20 +115,16 @@ const AddRecipeForm = () => {
         dispatchServings({ type: 'INPUT_BLUR' });
     };
 
-    const addIngredientHandler = () => {
-        dispatchIngredients({ type: 'ADD_INGREDIENT' });
-    };
-
-    const deleteIngredientHandler = deleteId => {
-        dispatchIngredients({ type: 'REMOVE_INGREDIENT', payload: deleteId });
-    };
-
     // ingredients: key, value, isValid
-    const initialIngredientsState = Array.from({ length: 6 }, (_, i) => [
-        `ingredient-${i + 1}`,
-        '',
-        null,
-    ]);
+    const initialIngredientsCount = 6;
+    const initialIngredientsState = {
+        value: Array.from({ length: initialIngredientsCount }, (_, i) => [
+            `ingredient-${i + 1}`,
+            '',
+            null,
+        ]),
+        count: initialIngredientsCount,
+    };
     const isValidIngredient = ing =>
         ing.trim().length > 0 && ing.split(',').length > 2;
 
@@ -137,25 +133,26 @@ const AddRecipeForm = () => {
             case 'USER_INPUT': {
                 const [savedIndex, savedValue] = action.payload;
 
-                const [ingredientId] = state[savedIndex];
-                state.splice(savedIndex, 1, [
+                const [ingredientId] = state.value[savedIndex];
+                state.value.splice(savedIndex, 1, [
                     ingredientId,
                     savedValue,
                     isValidIngredient(savedValue),
                 ]);
-                return [...state];
+                return { value: [...state.value], count: state.count };
             }
 
             case 'INPUT_BLUR': {
                 const savedIndex = action.payload;
-                const [ingredientId, ingValue] = state[savedIndex];
-                state.splice(savedIndex, 1, [
+
+                const [ingredientId, ingValue] = state.value[savedIndex];
+                state.value.splice(savedIndex, 1, [
                     ingredientId,
                     ingValue,
                     isValidIngredient(ingValue),
                 ]);
 
-                return [...state];
+                return { value: [...state.value], count: state.count };
             }
 
             case 'CLEAR_INPUT': {
@@ -163,20 +160,40 @@ const AddRecipeForm = () => {
             }
 
             case 'ADD_INGREDIENT': {
-                return [...state, [`ingredient-${state.length + 1}`, '', null]];
+                return {
+                    value: [
+                        ...state.value,
+                        [`ingredient-${state.count + 1}`, '', null],
+                    ],
+                    count: state.count + 1,
+                };
             }
 
             case 'REMOVE_INGREDIENT': {
                 const deleteId = action.payload;
                 console.log(deleteId);
-                state.splice(deleteId, 1);
 
-                return [...state];
+                state.value.splice(
+                    state.value.findIndex(
+                        ([ingredientId]) => ingredientId === deleteId
+                    ),
+                    1
+                );
+
+                return { value: [...state.value], count: state.count };
             }
 
             default:
                 return state;
         }
+    };
+
+    const addIngredientHandler = () => {
+        dispatchIngredients({ type: 'ADD_INGREDIENT' });
+    };
+
+    const deleteIngredientHandler = deleteId => {
+        dispatchIngredients({ type: 'REMOVE_INGREDIENT', payload: deleteId });
     };
 
     const [ingredientsState, dispatchIngredients] = useReducer(
@@ -200,7 +217,7 @@ const AddRecipeForm = () => {
     const { isValid: publisherIsValid } = publisherState;
     const { isValid: cookingTimeIsValid } = cookingTimeState;
     const { isValid: servingsIsValid } = servingsState;
-    const ingredientsIsValid = ingredientsState
+    const ingredientsIsValid = ingredientsState.value
         .map(([, , isValid]) => isValid)
         .every(isValid => isValid);
 
@@ -230,7 +247,7 @@ const AddRecipeForm = () => {
 
         if (
             !(
-                ingredientsState.every(([, , isValid]) => isValid) &&
+                ingredientsState.value.every(([, , isValid]) => isValid) &&
                 titleState.isValid &&
                 sourceUrlState.isValid &&
                 imageState.isValid &&
@@ -241,7 +258,7 @@ const AddRecipeForm = () => {
         )
             return;
 
-        const filledIngredients = ingredientsState.map(
+        const filledIngredients = ingredientsState.value.map(
             ([ingredientId, ingValue]) => [ingredientId, ingValue.trim()]
         );
 

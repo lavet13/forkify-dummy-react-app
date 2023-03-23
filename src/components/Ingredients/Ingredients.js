@@ -11,10 +11,11 @@ const Ingredients = ({
     return (
         <div className={styles.upload__column}>
             <h3 className={styles.upload__heading}>Ingredients</h3>
-            {ingredients.map(([ingredientId, value, isValid], i) => (
+            {ingredients.value.map(([ingredientId, value, isValid], i) => (
                 <IngredientItem
                     key={ingredientId}
-                    id={i}
+                    id={ingredientId}
+                    index={i}
                     value={value}
                     isValid={isValid}
                     onSaveIngredient={onSaveIngredient}
