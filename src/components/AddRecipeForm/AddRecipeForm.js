@@ -5,7 +5,7 @@ import icons from '../../resources/icons.svg';
 import Button from '../UI/Button';
 import Ingredients from '../Ingredients/Ingredients';
 import Control from '../UI/Control';
-import IngredientsCount from '../Ingredients/IngredientsCount';
+import IngredientsActions from '../Ingredients/IngredientsActions';
 
 const AddRecipeForm = () => {
     const iconUploadCloud = `${icons}#icon-upload-cloud`;
@@ -123,7 +123,6 @@ const AddRecipeForm = () => {
             '',
             null,
         ]),
-        count: initialIngredientsCount,
     };
     const isValidIngredient = ing =>
         ing.trim().length > 0 && ing.split(',').length > 2;
@@ -139,7 +138,8 @@ const AddRecipeForm = () => {
                     savedValue,
                     isValidIngredient(savedValue),
                 ]);
-                return { value: [...state.value], count: state.count };
+
+                return { value: [...state.value] };
             }
 
             case 'INPUT_BLUR': {
@@ -152,7 +152,7 @@ const AddRecipeForm = () => {
                     isValidIngredient(ingValue),
                 ]);
 
-                return { value: [...state.value], count: state.count };
+                return { value: [...state.value] };
             }
 
             case 'CLEAR_INPUT': {
@@ -163,24 +163,23 @@ const AddRecipeForm = () => {
                 return {
                     value: [
                         ...state.value,
-                        [`ingredient-${state.count + 1}`, '', null],
+                        [`ingredient-${state.value.length + 1}`, '', null],
                     ],
-                    count: state.count + 1,
                 };
             }
 
             case 'REMOVE_INGREDIENT': {
                 const deleteId = action.payload;
-                console.log(deleteId);
 
-                state.value.splice(
-                    state.value.findIndex(
-                        ([ingredientId]) => ingredientId === deleteId
-                    ),
-                    1
-                );
-
-                return { value: [...state.value], count: state.count };
+                return {
+                    value: state.value
+                        .filter((_, index) => index !== deleteId)
+                        .map(([, ingValue, ingIsValid], i) => [
+                            `ingredient-${i + 1}`,
+                            ingValue,
+                            ingIsValid,
+                        ]),
+                };
             }
 
             default:
@@ -217,9 +216,10 @@ const AddRecipeForm = () => {
     const { isValid: publisherIsValid } = publisherState;
     const { isValid: cookingTimeIsValid } = cookingTimeState;
     const { isValid: servingsIsValid } = servingsState;
-    const ingredientsIsValid = ingredientsState.value
-        .map(([, , isValid]) => isValid)
-        .every(isValid => isValid);
+    const ingredientsIsValid =
+        ingredientsState.value
+            .map(([, , isValid]) => isValid)
+            .every(isValid => isValid) && ingredientsState.value.length !== 0;
 
     useEffect(() => {
         console.log('EFFECT RUNNING');
@@ -248,6 +248,7 @@ const AddRecipeForm = () => {
         if (
             !(
                 ingredientsState.value.every(([, , isValid]) => isValid) &&
+                ingredientsState.value.length !== 0 &&
                 titleState.isValid &&
                 sourceUrlState.isValid &&
                 imageState.isValid &&
@@ -363,13 +364,13 @@ const AddRecipeForm = () => {
             </div>
 
             <Ingredients
-                ingredients={ingredientsState}
+                ingredients={ingredientsState.value}
                 onDeleteIngredient={deleteIngredientHandler}
                 onSaveIngredient={saveIngredientHandler}
                 onBlurIngredient={blurIngredientHandler}
             />
 
-            <IngredientsCount onAddingIngredient={addIngredientHandler} />
+            <IngredientsActions onAddingIngredient={addIngredientHandler} />
 
             <Button
                 btn

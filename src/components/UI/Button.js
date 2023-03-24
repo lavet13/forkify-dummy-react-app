@@ -52,6 +52,9 @@ const Button = styled.button`
         css`
             cursor: not-allowed;
             background: #999999;
+            &:hover {
+                transform: none;
+            }
         `}
 
     ${({ navBtn }) =>

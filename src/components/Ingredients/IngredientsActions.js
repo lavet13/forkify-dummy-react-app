@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './IngredientsCount.module.css';
+import styles from './IngredientsActions.module.css';
 import Button from '../UI/Button';
 
-function IngredientsCount({ onAddingIngredient }) {
+function IngredientsActions({ onAddingIngredient }) {
     return (
         <div className={styles.actions}>
             <Button btn btnUpload onClick={onAddingIngredient}>
@@ -12,4 +12,4 @@ function IngredientsCount({ onAddingIngredient }) {
     );
 }
 
-export default IngredientsCount;
+export default IngredientsActions;

@@ -7,19 +7,18 @@ const iconMinusCircle = `${icons}#icon-minus-circle`;
 
 const IngredientItem = ({
     id,
-    index,
     value,
+    isValid,
     onSaveIngredient,
     onBlurIngredient,
     onDeleteIngredient,
-    isValid,
 }) => {
     const ingredientChangeHandler = e => {
-        onSaveIngredient([index, e.target.value]);
+        onSaveIngredient([id, e.target.value]);
     };
 
     const ingredientBlurHandler = () => {
-        onBlurIngredient(index);
+        onBlurIngredient(id);
     };
 
     const deleteIngredientHandler = () => {
@@ -27,16 +26,15 @@ const IngredientItem = ({
     };
 
     return (
-        <Control invalid={isValid === false}>
-            <label htmlFor={`ingredient-${index + 1}`}>
-                Ingredient {index + 1}
-            </label>
+        <Control invalid={isValid === false} btnDelete>
+            <label htmlFor={`ingredient-${id + 1}`}>Ingredient {id + 1}</label>
             <input
                 onChange={ingredientChangeHandler}
                 onBlur={ingredientBlurHandler}
                 value={value}
                 type="text"
-                id={`ingredient-${index + 1}`}
+                title={`ingredient ${id + 1}`}
+                id={`ingredient-${id + 1}`}
                 placeholder="Format: 'Quantity,Unit,Description'"
             />
             <Button btnTiny onClick={deleteIngredientHandler}>

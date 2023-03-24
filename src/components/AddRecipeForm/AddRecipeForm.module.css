@@ -1,6 +1,7 @@
 .upload {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 400px auto;
     gap: 4rem 6rem;
 }
 .upload__column {
@@ -9,6 +10,19 @@
     align-items: center;
     gap: 1.5rem;
     grid-auto-rows: min-content;
+    overflow-y: auto;
+}
+.upload__column::-webkit-scrollbar {
+    width: 7px;
+}
+.upload__column::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+.upload__column::-webkit-scrollbar-thumb {
+    background: #3030306d;
+}
+.upload__column::-webkit-scrollbar-thumb:hover {
+    background: #282828ad;
 }
 .upload__column input {
     font-size: 1.5rem;
