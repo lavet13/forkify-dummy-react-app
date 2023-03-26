@@ -125,8 +125,14 @@ const AddRecipeForm = () => {
             null,
         ]),
     };
-    const isValidIngredient = ing =>
-        ing.trim().length > 0 && ing.split(',').length > 2;
+    const isValidIngredient = ingredients => {
+        const ingArray = ingredients.split(',');
+
+        return (
+            ingArray.length > 2 &&
+            ingArray.every(ing => ing.trim().length !== 0)
+        );
+    };
 
     const ingredientsReducer = (state, action) => {
         switch (action.type) {
@@ -212,9 +218,8 @@ const AddRecipeForm = () => {
     const { isValid: cookingTimeIsValid } = cookingTimeState;
     const { isValid: servingsIsValid } = servingsState;
     const ingredientsIsValid =
-        ingredientsState.value
-            .map(([, , isValid]) => isValid)
-            .every(isValid => isValid) && ingredientsState.value.length !== 0;
+        ingredientsState.value.every(([, , isValid]) => isValid) &&
+        ingredientsState.value.length !== 0;
 
     useEffect(() => {
         console.log('EFFECT RUNNING');
@@ -255,7 +260,10 @@ const AddRecipeForm = () => {
             return;
 
         const filledIngredients = ingredientsState.value.map(
-            ([, ingValue], i) => [`ingredient-${i + 1}`, ingValue.trim()]
+            ([, ingValue], i) => [
+                `ingredient-${i + 1}`,
+                ingValue.split(',').map(ing => ing.trim()),
+            ]
         );
 
         const enteredData = {

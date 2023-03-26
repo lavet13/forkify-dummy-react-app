@@ -57,3 +57,10 @@
     margin-bottom: 1rem;
     grid-column: 1/-1;
 }
+
+.paragraph {
+    grid-column: 1 / -1;
+    font-family: inherit;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
