@@ -3,7 +3,7 @@ import styles from './SearchResults.module.css';
 import Results from '../Results/Results';
 import Pagination from '../Pagination/Pagination';
 
-function SearchResults() {
+const SearchResults = () => {
     const saveIdPreviewHandler = selectedId => {
         console.log(selectedId);
     };
@@ -28,6 +28,6 @@ function SearchResults() {
             />
         </div>
     );
-}
+};
 
 export default SearchResults;

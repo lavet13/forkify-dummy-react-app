@@ -172,13 +172,7 @@ const AddRecipeForm = () => {
                 const deleteId = action.payload;
 
                 return {
-                    value: state.value
-                        .filter((_, index) => index !== deleteId)
-                        .map(([, ingValue, ingIsValid], i) => [
-                            `ingredient-${i + 1}`,
-                            ingValue,
-                            ingIsValid,
-                        ]),
+                    value: state.value.filter((_, index) => index !== deleteId),
                 };
             }
 
@@ -260,7 +254,7 @@ const AddRecipeForm = () => {
             return;
 
         const filledIngredients = ingredientsState.value.map(
-            ([ingredientId, ingValue]) => [ingredientId, ingValue.trim()]
+            ([, ingValue], i) => [`ingredient-${i + 1}`, ingValue.trim()]
         );
 
         const enteredData = {
@@ -289,76 +283,76 @@ const AddRecipeForm = () => {
             <div className={styles.upload__column}>
                 <h3 className={styles.upload__heading}>Recipe data</h3>
                 <Control invalid={titleState.isValid === false && !formIsValid}>
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor='title'>Title</label>
                     <input
                         onChange={titleChangeHandler}
                         onBlur={validateTitleHandler}
                         value={titleState.value}
-                        id="title"
-                        type="text"
+                        id='title'
+                        type='text'
                     />
                 </Control>
 
                 <Control
                     invalid={sourceUrlState.isValid === false && !formIsValid}
                 >
-                    <label htmlFor="sourceUrl">URL</label>
+                    <label htmlFor='sourceUrl'>URL</label>
                     <input
                         onChange={sourceUrlChangeHandler}
                         onBlur={validateSourceUrlHandler}
                         value={sourceUrlState.value}
-                        id="sourceUrl"
-                        type="text"
+                        id='sourceUrl'
+                        type='text'
                     />
                 </Control>
 
                 <Control invalid={imageState.isValid === false && !formIsValid}>
-                    <label htmlFor="image">Image URL</label>
+                    <label htmlFor='image'>Image URL</label>
                     <input
                         onChange={imageChangeHandler}
                         onBlur={validateImageHandler}
                         value={imageState.value}
-                        id="image"
-                        type="text"
+                        id='image'
+                        type='text'
                     />
                 </Control>
 
                 <Control
                     invalid={publisherState.isValid === false && !formIsValid}
                 >
-                    <label htmlFor="publisher">Publisher</label>
+                    <label htmlFor='publisher'>Publisher</label>
                     <input
                         onChange={publisherChangeHandler}
                         onBlur={validatePublisherHandler}
                         value={publisherState.value}
-                        id="publisher"
-                        type="text"
+                        id='publisher'
+                        type='text'
                     />
                 </Control>
 
                 <Control
                     invalid={cookingTimeState.isValid === false && !formIsValid}
                 >
-                    <label htmlFor="cookingTime">Prep time</label>
+                    <label htmlFor='cookingTime'>Prep time</label>
                     <input
                         onChange={cookingTimeChangeHandler}
                         onBlur={validateCookingTimeHandler}
                         value={cookingTimeState.value}
-                        id="cookingTime"
-                        type="number"
+                        id='cookingTime'
+                        type='number'
                     />
                 </Control>
 
                 <Control
                     invalid={servingsState.isValid === false && !formIsValid}
                 >
-                    <label htmlFor="servings">Servings</label>
+                    <label htmlFor='servings'>Servings</label>
                     <input
                         onChange={servingsChangeHandler}
                         onBlur={validateServingsHandler}
                         value={servingsState.value}
-                        id="servings"
-                        type="number"
+                        id='servings'
+                        type='number'
                     />
                 </Control>
             </div>
@@ -372,18 +366,28 @@ const AddRecipeForm = () => {
 
             <IngredientsActions onAddingIngredient={addIngredientHandler} />
 
-            <Button
-                btn
-                uploadBtn
-                type="submit"
-                disabled={!formIsValid}
-                btnDisabled={!formIsValid}
-            >
-                <svg>
-                    <use href={iconUploadCloud}></use>
-                </svg>
-                <span>Upload</span>
-            </Button>
+            {formIsValid && (
+                <Button btn uploadBtn type='submit'>
+                    <svg>
+                        <use href={iconUploadCloud}></use>
+                    </svg>
+                    <span>Upload</span>
+                </Button>
+            )}
+            {!formIsValid && (
+                <Button
+                    btn
+                    uploadBtn
+                    type='submit'
+                    disabled={!formIsValid}
+                    btnDisabled={!formIsValid}
+                >
+                    <svg>
+                        <use href={iconUploadCloud}></use>
+                    </svg>
+                    <span>Upload</span>
+                </Button>
+            )}
         </form>
     );
 };

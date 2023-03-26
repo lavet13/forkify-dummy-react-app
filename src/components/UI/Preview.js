@@ -3,12 +3,12 @@ import styles from './Preview.module.css';
 
 // import icons from '../../resources/icons.svg';
 
-function Preview() {
+const Preview = () => {
     // const iconUser = `${icons}#icon-user`;
 
     return (
         <li>
-            <a className={styles.preview__link} href="?id=23456">
+            <a className={styles.preview__link} href='?id=23456'>
                 <figure className={styles.preview__fig}>
                     {/* <img src="src/img/test-1.jpg" alt="Test" /> */}
                 </figure>
@@ -28,6 +28,6 @@ function Preview() {
             </a>
         </li>
     );
-}
+};
 
 export default Preview;

@@ -3,7 +3,7 @@ import styles from './Message.module.css';
 
 import icons from '../../resources/icons.svg';
 
-function Message({ text }) {
+const Message = ({ text }) => {
     const iconSmile = `${icons}#icon-smile`;
 
     return (
@@ -16,6 +16,6 @@ function Message({ text }) {
             <p>{text}</p>
         </div>
     );
-}
+};
 
 export default Message;

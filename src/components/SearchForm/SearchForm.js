@@ -3,7 +3,7 @@ import styles from './SearchForm.module.css';
 import icons from '../../resources/icons.svg';
 import Button from '../UI/Button';
 
-function SearchForm({ onSaveSearchData }) {
+const SearchForm = ({ onSaveSearchData }) => {
     const iconSearch = `${icons}#icon-search`;
 
     const enteredSearchField = useRef();
@@ -21,12 +21,12 @@ function SearchForm({ onSaveSearchData }) {
     return (
         <form onSubmit={formSubmitHandler} className={styles.search}>
             <input
-                type="text"
+                type='text'
                 className={styles.search__field}
-                placeholder="Search over 1,000,000 recipes..."
+                placeholder='Search over 1,000,000 recipes...'
                 ref={enteredSearchField}
             />
-            <Button btn searchBtn type="submit">
+            <Button btn searchBtn type='submit'>
                 <svg>
                     <use href={iconSearch}></use>
                 </svg>
@@ -34,6 +34,6 @@ function SearchForm({ onSaveSearchData }) {
             </Button>
         </form>
     );
-}
+};
 
 export default SearchForm;

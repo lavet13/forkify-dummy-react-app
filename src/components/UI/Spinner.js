@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Spinner.module.css';
 import icons from '../../resources/icons.svg';
 
-function Spinner() {
+const Spinner = () => {
     const iconLoader = `${icons}#icon-loader`;
 
     return (

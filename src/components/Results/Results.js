@@ -4,7 +4,7 @@ import previewStyles from '../UI/Preview.module.css';
 
 import Preview from '../UI/Preview';
 
-function Results({ onSaveIdPreview, page }) {
+const Results = ({ onSaveIdPreview, page }) => {
     const previewLinkHandler = e => {
         e.preventDefault();
 
@@ -21,6 +21,6 @@ function Results({ onSaveIdPreview, page }) {
             <Preview />
         </div>
     );
-}
+};
 
 export default Results;

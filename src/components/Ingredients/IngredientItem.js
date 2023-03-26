@@ -32,12 +32,12 @@ const IngredientItem = ({
                 onChange={ingredientChangeHandler}
                 onBlur={ingredientBlurHandler}
                 value={value}
-                type="text"
+                type='text'
                 title={`ingredient ${id + 1}`}
                 id={`ingredient-${id + 1}`}
                 placeholder="Format: 'Quantity,Unit,Description'"
             />
-            <Button btnTiny onClick={deleteIngredientHandler}>
+            <Button btnTiny type='button' onClick={deleteIngredientHandler}>
                 <svg>
                     <use href={iconMinusCircle}></use>
                 </svg>

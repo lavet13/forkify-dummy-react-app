@@ -3,7 +3,7 @@ import styles from './ErrorMessage.module.css';
 
 import icons from '../../resources/icons.svg';
 
-function ErrorMessage({ text }) {
+const ErrorMessage = ({ text }) => {
     const iconError = `${icons}#icon-alert-triangle`;
 
     return (
@@ -16,6 +16,6 @@ function ErrorMessage({ text }) {
             <p>{text}</p>
         </div>
     );
-}
+};
 
 export default ErrorMessage;
