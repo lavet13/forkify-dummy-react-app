@@ -36,7 +36,7 @@ const Recipe = () => {
 
     return (
         <div className={styles.recipe}>
-            <Message text="Start by searching for a recipe or an ingredient. Have fun!"></Message>
+            <Message text='Start by searching for a recipe or an ingredient. Have fun!'></Message>
             <figure className={styles.recipe__fig}>
                 {/* <img
                     src="src/img/test-1.jpg"
@@ -143,7 +143,7 @@ const Recipe = () => {
                     </span>
                     . Please check out directions at their website.
                 </p>
-                <A href="http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/">
+                <A href='http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/'>
                     <span>Directions</span>
                     <svg>
                         <use href={iconArrowRight}></use>

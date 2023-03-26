@@ -2,12 +2,7 @@ import React from 'react';
 import IngredientItem from './IngredientItem';
 import styles from '../AddRecipeForm/AddRecipeForm.module.css';
 
-const Ingredients = ({
-    ingredients,
-    onSaveIngredient,
-    onBlurIngredient,
-    onDeleteIngredient,
-}) => {
+const Ingredients = ({ ingredients }) => {
     return (
         <div className={styles.upload__column}>
             <h3 className={styles.upload__heading}>Ingredients</h3>
@@ -17,9 +12,6 @@ const Ingredients = ({
                     id={i}
                     value={value}
                     isValid={isValid}
-                    onSaveIngredient={onSaveIngredient}
-                    onBlurIngredient={onBlurIngredient}
-                    onDeleteIngredient={onDeleteIngredient}
                 />
             ))}
         </div>

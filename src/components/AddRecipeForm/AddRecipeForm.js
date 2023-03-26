@@ -6,6 +6,7 @@ import Button from '../UI/Button';
 import Ingredients from '../Ingredients/Ingredients';
 import Control from '../UI/Control';
 import IngredientsActions from '../Ingredients/IngredientsActions';
+import IngredientsContext from '../../context/ingredients-context';
 
 const AddRecipeForm = () => {
     const iconUploadCloud = `${icons}#icon-upload-cloud`;
@@ -357,12 +358,15 @@ const AddRecipeForm = () => {
                 </Control>
             </div>
 
-            <Ingredients
-                ingredients={ingredientsState.value}
-                onDeleteIngredient={deleteIngredientHandler}
-                onSaveIngredient={saveIngredientHandler}
-                onBlurIngredient={blurIngredientHandler}
-            />
+            <IngredientsContext.Provider
+                value={{
+                    onDeleteIngredient: deleteIngredientHandler,
+                    onSaveIngredient: saveIngredientHandler,
+                    onBlurIngredient: blurIngredientHandler,
+                }}
+            >
+                <Ingredients ingredients={ingredientsState.value} />
+            </IngredientsContext.Provider>
 
             <IngredientsActions onAddingIngredient={addIngredientHandler} />
 
