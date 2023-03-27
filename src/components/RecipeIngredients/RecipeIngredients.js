@@ -11,6 +11,7 @@ const RecipeIngredients = () => {
     return (
         <div className={styles.upload__column}>
             <h3 className={styles.upload__heading}>Recipe data</h3>
+
             <Title />
             <SourceUrl />
             <Image />
