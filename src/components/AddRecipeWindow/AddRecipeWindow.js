@@ -5,6 +5,9 @@ import AddRecipeForm from '../AddRecipeForm/AddRecipeForm';
 import Backdrop from '../UI/Backdrop';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
+import { IngredientsContextProvider } from '../../context/ingredients-context';
+import { RecipeFormContextProvider } from '../../context/recipe-form-context';
+import { FormIsValidContextProvider } from '../../context/form-isvalid-context';
 
 const AddRecipeWindow = ({ onCancel }) => {
     return (
@@ -18,7 +21,13 @@ const AddRecipeWindow = ({ onCancel }) => {
                     <Button btnCloseModal onClick={onCancel}>
                         &times;
                     </Button>
-                    <AddRecipeForm />
+                    <IngredientsContextProvider>
+                        <RecipeFormContextProvider>
+                            <FormIsValidContextProvider>
+                                <AddRecipeForm />
+                            </FormIsValidContextProvider>
+                        </RecipeFormContextProvider>
+                    </IngredientsContextProvider>
                 </Card>,
                 document.querySelector('#overlay-root')
             )}

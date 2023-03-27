@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import IngredientItem from './IngredientItem';
 import styles from '../AddRecipeForm/AddRecipeForm.module.css';
+import IngredientsContext from '../../context/ingredients-context';
 
-const Ingredients = ({ ingredients }) => {
+const Ingredients = () => {
+    const {
+        ingredientsState: { value: ingredients },
+    } = useContext(IngredientsContext);
+
     return (
         <div className={styles.upload__column}>
             <h3 className={styles.upload__heading}>Ingredients</h3>
