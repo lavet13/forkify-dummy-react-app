@@ -33,6 +33,7 @@ const AddRecipeForm = () => {
             default:
                 return state;
         }
+        console.log('huh');
     };
 
     const isValidTitle = title => title.length >= 5;
@@ -292,76 +293,76 @@ const AddRecipeForm = () => {
             <div className={styles.upload__column}>
                 <h3 className={styles.upload__heading}>Recipe data</h3>
                 <Control invalid={titleState.isValid === false && !formIsValid}>
-                    <label htmlFor='title'>Title</label>
+                    <label htmlFor="title">Title</label>
                     <input
                         onChange={titleChangeHandler}
                         onBlur={validateTitleHandler}
                         value={titleState.value}
-                        id='title'
-                        type='text'
+                        id="title"
+                        type="text"
                     />
                 </Control>
 
                 <Control
                     invalid={sourceUrlState.isValid === false && !formIsValid}
                 >
-                    <label htmlFor='sourceUrl'>URL</label>
+                    <label htmlFor="sourceUrl">URL</label>
                     <input
                         onChange={sourceUrlChangeHandler}
                         onBlur={validateSourceUrlHandler}
                         value={sourceUrlState.value}
-                        id='sourceUrl'
-                        type='text'
+                        id="sourceUrl"
+                        type="text"
                     />
                 </Control>
 
                 <Control invalid={imageState.isValid === false && !formIsValid}>
-                    <label htmlFor='image'>Image URL</label>
+                    <label htmlFor="image">Image URL</label>
                     <input
                         onChange={imageChangeHandler}
                         onBlur={validateImageHandler}
                         value={imageState.value}
-                        id='image'
-                        type='text'
+                        id="image"
+                        type="text"
                     />
                 </Control>
 
                 <Control
                     invalid={publisherState.isValid === false && !formIsValid}
                 >
-                    <label htmlFor='publisher'>Publisher</label>
+                    <label htmlFor="publisher">Publisher</label>
                     <input
                         onChange={publisherChangeHandler}
                         onBlur={validatePublisherHandler}
                         value={publisherState.value}
-                        id='publisher'
-                        type='text'
+                        id="publisher"
+                        type="text"
                     />
                 </Control>
 
                 <Control
                     invalid={cookingTimeState.isValid === false && !formIsValid}
                 >
-                    <label htmlFor='cookingTime'>Prep time</label>
+                    <label htmlFor="cookingTime">Prep time</label>
                     <input
                         onChange={cookingTimeChangeHandler}
                         onBlur={validateCookingTimeHandler}
                         value={cookingTimeState.value}
-                        id='cookingTime'
-                        type='number'
+                        id="cookingTime"
+                        type="number"
                     />
                 </Control>
 
                 <Control
                     invalid={servingsState.isValid === false && !formIsValid}
                 >
-                    <label htmlFor='servings'>Servings</label>
+                    <label htmlFor="servings">Servings</label>
                     <input
                         onChange={servingsChangeHandler}
                         onBlur={validateServingsHandler}
                         value={servingsState.value}
-                        id='servings'
-                        type='number'
+                        id="servings"
+                        type="number"
                     />
                 </Control>
             </div>
@@ -379,7 +380,7 @@ const AddRecipeForm = () => {
             <IngredientsActions onAddingIngredient={addIngredientHandler} />
 
             {formIsValid && (
-                <Button btn uploadBtn type='submit'>
+                <Button btn uploadBtn type="submit">
                     <svg>
                         <use href={iconUploadCloud}></use>
                     </svg>
@@ -390,7 +391,7 @@ const AddRecipeForm = () => {
                 <Button
                     btn
                     uploadBtn
-                    type='submit'
+                    type="submit"
                     disabled={!formIsValid}
                     btnDisabled={!formIsValid}
                 >
