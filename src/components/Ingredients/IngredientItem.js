@@ -1,15 +1,18 @@
-import React, { useContext } from 'react';
-import IngredientsContext from '../../context/ingredients-context';
+import React from 'react';
 import Control from '../UI/Control';
 import Button from '../UI/Button';
 
 import icons from '../../resources/icons.svg';
 const iconMinusCircle = `${icons}#icon-minus-circle`;
 
-const IngredientItem = ({ id, value, isValid }) => {
-    const { onDeleteIngredient, onSaveIngredient, onBlurIngredient } =
-        useContext(IngredientsContext);
-
+const IngredientItem = ({
+    id,
+    value,
+    isValid,
+    onSaveIngredient,
+    onBlurIngredient,
+    onDeleteIngredient,
+}) => {
     const ingredientChangeHandler = e => {
         onSaveIngredient([id, e.target.value]);
     };
@@ -29,12 +32,12 @@ const IngredientItem = ({ id, value, isValid }) => {
                 onChange={ingredientChangeHandler}
                 onBlur={ingredientBlurHandler}
                 value={value}
-                type='text'
+                type="text"
                 title={`ingredient ${id + 1}`}
                 id={`ingredient-${id + 1}`}
                 placeholder="Format: 'Quantity,Unit,Description'"
             />
-            <Button btnTiny type='button' onClick={deleteIngredientHandler}>
+            <Button btnTiny type="button" onClick={deleteIngredientHandler}>
                 <svg>
                     <use href={iconMinusCircle}></use>
                 </svg>

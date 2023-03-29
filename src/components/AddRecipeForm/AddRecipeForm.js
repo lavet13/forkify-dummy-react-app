@@ -6,7 +6,6 @@ import Button from '../UI/Button';
 import Ingredients from '../Ingredients/Ingredients';
 import Control from '../UI/Control';
 import IngredientsActions from '../Ingredients/IngredientsActions';
-import IngredientsContext from '../../context/ingredients-context';
 
 const AddRecipeForm = () => {
     const iconUploadCloud = `${icons}#icon-upload-cloud`;
@@ -33,7 +32,6 @@ const AddRecipeForm = () => {
             default:
                 return state;
         }
-        console.log('huh');
     };
 
     const isValidTitle = title => title.length >= 5;
@@ -248,14 +246,13 @@ const AddRecipeForm = () => {
 
         if (
             !(
-                ingredientsState.value.every(([, , isValid]) => isValid) &&
-                ingredientsState.value.length !== 0 &&
-                titleState.isValid &&
-                sourceUrlState.isValid &&
-                imageState.isValid &&
-                publisherState.isValid &&
-                cookingTimeState.isValid &&
-                servingsState.isValid
+                ingredientsIsValid &&
+                titleIsValid &&
+                sourceUrlIsValid &&
+                imageIsValid &&
+                publisherIsValid &&
+                cookingTimeIsValid &&
+                servingsIsValid
             )
         )
             return;
@@ -292,7 +289,7 @@ const AddRecipeForm = () => {
         <form onSubmit={formSubmitHandler} className={styles.upload}>
             <div className={styles.upload__column}>
                 <h3 className={styles.upload__heading}>Recipe data</h3>
-                <Control invalid={titleState.isValid === false && !formIsValid}>
+                <Control invalid={titleIsValid === false && !formIsValid}>
                     <label htmlFor="title">Title</label>
                     <input
                         onChange={titleChangeHandler}
@@ -303,9 +300,7 @@ const AddRecipeForm = () => {
                     />
                 </Control>
 
-                <Control
-                    invalid={sourceUrlState.isValid === false && !formIsValid}
-                >
+                <Control invalid={sourceUrlIsValid === false && !formIsValid}>
                     <label htmlFor="sourceUrl">URL</label>
                     <input
                         onChange={sourceUrlChangeHandler}
@@ -316,7 +311,7 @@ const AddRecipeForm = () => {
                     />
                 </Control>
 
-                <Control invalid={imageState.isValid === false && !formIsValid}>
+                <Control invalid={imageIsValid === false && !formIsValid}>
                     <label htmlFor="image">Image URL</label>
                     <input
                         onChange={imageChangeHandler}
@@ -327,9 +322,7 @@ const AddRecipeForm = () => {
                     />
                 </Control>
 
-                <Control
-                    invalid={publisherState.isValid === false && !formIsValid}
-                >
+                <Control invalid={publisherIsValid === false && !formIsValid}>
                     <label htmlFor="publisher">Publisher</label>
                     <input
                         onChange={publisherChangeHandler}
@@ -340,9 +333,7 @@ const AddRecipeForm = () => {
                     />
                 </Control>
 
-                <Control
-                    invalid={cookingTimeState.isValid === false && !formIsValid}
-                >
+                <Control invalid={cookingTimeIsValid === false && !formIsValid}>
                     <label htmlFor="cookingTime">Prep time</label>
                     <input
                         onChange={cookingTimeChangeHandler}
@@ -353,9 +344,7 @@ const AddRecipeForm = () => {
                     />
                 </Control>
 
-                <Control
-                    invalid={servingsState.isValid === false && !formIsValid}
-                >
+                <Control invalid={servingsIsValid === false && !formIsValid}>
                     <label htmlFor="servings">Servings</label>
                     <input
                         onChange={servingsChangeHandler}
@@ -367,15 +356,12 @@ const AddRecipeForm = () => {
                 </Control>
             </div>
 
-            <IngredientsContext.Provider
-                value={{
-                    onDeleteIngredient: deleteIngredientHandler,
-                    onSaveIngredient: saveIngredientHandler,
-                    onBlurIngredient: blurIngredientHandler,
-                }}
-            >
-                <Ingredients ingredients={ingredientsState.value} />
-            </IngredientsContext.Provider>
+            <Ingredients
+                ingredients={ingredientsState.value}
+                onDeleteIngredient={deleteIngredientHandler}
+                onSaveIngredient={saveIngredientHandler}
+                onBlurIngredient={blurIngredientHandler}
+            />
 
             <IngredientsActions onAddingIngredient={addIngredientHandler} />
 
