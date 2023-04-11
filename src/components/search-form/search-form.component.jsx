@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import styles from './search-form.module.css';
-import icons from '../../resources/icons.svg';
+import icons from '../../assets/icons.svg';
 import Button from '../UI/button/button.component';
 
 const SearchForm = ({ onSaveSearchData }) => {
@@ -13,7 +13,9 @@ const SearchForm = ({ onSaveSearchData }) => {
 
     if (!enteredSearchField.current.value) return;
 
-    onSaveSearchData({ search: enteredSearchField.current.value });
+    const search = enteredSearchField.current.value;
+
+    onSaveSearchData({ search });
 
     enteredSearchField.current.value = '';
   };

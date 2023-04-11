@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './preview.module.css';
 
 // import icons from '../../resources/icons.svg';
@@ -8,7 +9,7 @@ const Preview = () => {
 
   return (
     <li>
-      <a className={styles.preview__link} href='?id=23456'>
+      <Link className={styles.preview__link} to='/search/recipe'>
         <figure className={styles.preview__fig}>
           {/* <img src="src/img/test-1.jpg" alt="Test" /> */}
         </figure>
@@ -21,7 +22,7 @@ const Preview = () => {
                         </svg>
                     </div> */}
         </div>
-      </a>
+      </Link>
     </li>
   );
 };

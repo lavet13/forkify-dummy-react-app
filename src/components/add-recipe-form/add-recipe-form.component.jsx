@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import styles from './add-recipe-form.module.css';
-import icons from '../../resources/icons.svg';
+import icons from '../../assets/icons.svg';
 
 import Button from '../UI/button/button.component';
 import Ingredients from '../ingredients/ingredients.component';
