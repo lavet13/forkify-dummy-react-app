@@ -1,8 +1,7 @@
-import { Component, Fragment } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Component } from 'react';
 import styles from './search-results.module.css';
-import Results from '../../components/results/results.component';
-import Pagination from '../../components/pagination/pagination.component';
+import Results from '../results/results.component';
+import Pagination from '../pagination/pagination.component';
 
 class SearchResults extends Component {
   constructor() {
@@ -29,16 +28,13 @@ class SearchResults extends Component {
     const { currentPage } = this.state;
 
     return (
-      <Fragment>
-        <div className={styles['search-results']}>
-          <Results page={currentPage} saveIdPreviewHandler={onSaveIdPreview} />
-          <Pagination
-            page={currentPage}
-            saveCurrentPageHandler={onSaveCurrentPage}
-          />
-        </div>
-        <Outlet />
-      </Fragment>
+      <div className={styles['search-results']}>
+        <Results page={currentPage} saveIdPreviewHandler={onSaveIdPreview} />
+        <Pagination
+          page={currentPage}
+          saveCurrentPageHandler={onSaveCurrentPage}
+        />
+      </div>
     );
   }
 }

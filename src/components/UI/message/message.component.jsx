@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './message.module.css';
 
-import icons from '../../../assets/icons.svg';
+import icons from '../../../resources/icons.svg';
 
 const Message = ({ text }) => {
   const iconSmile = `${icons}#icon-smile`;

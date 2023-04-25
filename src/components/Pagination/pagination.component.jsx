@@ -1,20 +1,20 @@
 import { Component } from 'react';
 import styles from './pagination.module.css';
 
-import icons from '../../assets/icons.svg';
+import icons from '../../resources/icons.svg';
 import Button from '../UI/button/button.component';
 
 class Pagination extends Component {
   iconArrowLeft = `${icons}#icon-arrow-left`;
   iconArrowRight = `${icons}#icon-arrow-right`;
 
-  prevPageHandler = () => {
+  onPrevPage = () => {
     const { saveCurrentPageHandler, page } = this.props;
 
     saveCurrentPageHandler(page - 1);
   };
 
-  nextPageHandler = () => {
+  onNextPage = () => {
     const { saveCurrentPageHandler, page } = this.props;
 
     saveCurrentPageHandler(page + 1);
@@ -22,20 +22,19 @@ class Pagination extends Component {
 
   render() {
     const { page } = this.props;
-    const { prevPageHandler, nextPageHandler, iconArrowLeft, iconArrowRight } =
-      this;
+    const { onPrevPage, onNextPage, iconArrowLeft, iconArrowRight } = this;
 
     return (
       <div className={styles.pagination}>
         {page > 1 && (
-          <Button btnInline floatLeft onClick={prevPageHandler}>
+          <Button btnInline floatLeft onClick={onPrevPage}>
             <svg>
               <use href={iconArrowLeft}></use>
             </svg>
             <span>Page {page - 1}</span>
           </Button>
         )}
-        <Button btnInline floatRight onClick={nextPageHandler}>
+        <Button btnInline floatRight onClick={onNextPage}>
           <span>Page {page + 1}</span>
           <svg>
             <use href={iconArrowRight}></use>

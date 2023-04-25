@@ -3,7 +3,7 @@ import styles from './nav.module.css';
 import otherStyles from '../bookmarks/bookmarks.module.css';
 
 import Bookmarks from '../bookmarks/bookmarks.component';
-import icons from '../../assets/icons.svg';
+import icons from '../../resources/icons.svg';
 import Button from '../UI/button/button.component';
 import AddRecipeWindow from '../add-recipe-window/add-recipe-window.component';
 
