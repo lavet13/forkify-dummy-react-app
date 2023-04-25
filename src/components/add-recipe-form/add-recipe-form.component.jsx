@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from './add-recipe-form.module.css';
 import icons from '../../resources/icons.svg';
 
@@ -9,19 +9,21 @@ import IngredientsActions from '../ingredients/ingredients-actions.component';
 
 const iconUploadCloud = `${icons}#icon-upload-cloud`;
 
-const AddRecipeForm = () => {
-  const defaultFormFields = {
-    title: '',
-    sourceUrl: '',
-    image: '',
-    publisher: '',
-    cookingTime: '',
-    servings: '',
-  };
+const defaultFormFields = {
+  title: '',
+  sourceUrl: '',
+  image: '',
+  publisher: '',
+  cookingTime: '',
+  servings: '',
+};
 
+const AddRecipeForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { title, sourceUrl, image, publisher, cookingTime, servings } =
     formFields;
+
+  const resetFormFields = () => setFormFields(defaultFormFields);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -31,7 +33,8 @@ const AddRecipeForm = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(formFields);
+    console.log({ ...formFields });
+    resetFormFields();
   };
 
   return (
@@ -94,15 +97,10 @@ const AddRecipeForm = () => {
           min='1'
         />
       </div>
-      {/* 
-      <Ingredients
-        ingredients={ingredientsState.value}
-        onDeleteIngredient={deleteIngredientHandler}
-        onSaveIngredient={saveIngredientHandler}
-        onBlurIngredient={blurIngredientHandler}
-      />
 
-      <IngredientsActions onAddingIngredient={addIngredientHandler} /> */}
+      <Ingredients />
+
+      {/* <IngredientsActions onAddingIngredient={addIngredientHandler} /> */}
 
       <Button btn uploadBtn type='submit'>
         <svg>
