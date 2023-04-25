@@ -13,21 +13,16 @@ const App = () => {
   };
 
   return (
-    <Routes>
-      <Route
-        path='/'
-        element={
-          <Header>
-            <SearchForm onSaveSearchData={saveSearchDataHandler} />
-            <Nav />
-          </Header>
-        }
-      >
-        <Route path='search' element={<SearchResults />}>
-          <Route path='recipe' element={<Recipe />} />
-        </Route>
-      </Route>
-    </Routes>
+    <div className={styles.container}>
+      <Header>
+        <SearchForm onSaveSearchData={saveSearchDataHandler} />
+        <Nav />
+      </Header>
+
+      <SearchResults />
+
+      <Recipe />
+    </div>
   );
 };
 
