@@ -18,7 +18,9 @@ const App = () => {
         <SearchForm onSaveSearchData={saveSearchDataHandler} />
         <Nav />
       </Header>
+
       <SearchResults />
+
       <Recipe />
     </div>
   );
