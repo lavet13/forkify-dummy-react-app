@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import Message from '../UI/message/message.component';
+import Message from '../../components/UI/message/message.component';
 import styles from './recipe.module.css';
 
-import icons from '../../resources/icons.svg';
-import Button from '../UI/button/button.component';
-import A from '../UI/a/a.component';
+import icons from '../../assets/icons.svg';
+import Button from '../../components/UI/button/button.component';
+import A from '../../components/UI/a/a.component';
 
 const iconClock = `${icons}#icon-clock`;
 const iconUsers = `${icons}#icon-users`;
