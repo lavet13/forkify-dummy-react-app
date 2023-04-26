@@ -10,19 +10,12 @@ const IngredientItem = ({ id, index, isValid, ...otherProps }) => {
     // <Control invalid={isValid === false} btnDelete>
     <Control btnDelete>
       <label htmlFor={id}>Ingredient {index + 1}</label>
-      <input
-        // onChange={ingredientChangeHandler}
-        // onBlur={ingredientBlurHandler}
-        id={id}
-        {...otherProps}
-      />
-      {/* <Button btnTiny type='button' onClick={deleteIngredientHandler}> */}
+      <input id={id} {...otherProps} />
       <Button btnTiny type='button'>
         <svg>
           <use href={iconMinusCircle}></use>
         </svg>
       </Button>
-      {/* </Button> */}
     </Control>
   );
 };

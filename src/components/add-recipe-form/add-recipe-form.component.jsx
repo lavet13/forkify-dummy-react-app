@@ -9,6 +9,14 @@ import IngredientsActions from '../ingredients/ingredients-actions.component';
 
 const iconUploadCloud = `${icons}#icon-upload-cloud`;
 
+const initialIngredientsCount = 6;
+const initialIngredientsState = new Map(
+  Array.from({ length: initialIngredientsCount }, (_, i) => [
+    `ingredient-${i + 1}`,
+    ['', null],
+  ])
+);
+
 const defaultFormFields = {
   title: '',
   sourceUrl: '',
@@ -16,24 +24,52 @@ const defaultFormFields = {
   publisher: '',
   cookingTime: '',
   servings: '',
+  ingredients: initialIngredientsState,
+};
+
+const isValidIngredient = ingredients => {
+  const ingArray = ingredients.split(',');
+
+  return ingArray.length > 2 && ingArray.every(ing => ing.trim().length !== 0);
 };
 
 const AddRecipeForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { title, sourceUrl, image, publisher, cookingTime, servings } =
-    formFields;
+  const {
+    title,
+    sourceUrl,
+    image,
+    publisher,
+    cookingTime,
+    servings,
+    ingredients,
+  } = formFields;
 
-  const resetFormFields = () => setFormFields(defaultFormFields);
+  const resetFormFields = () =>
+    setFormFields({
+      ...defaultFormFields,
+      ingredients: new Map([...initialIngredientsState]),
+    });
 
   const handleChange = event => {
     const { name, value } = event.target;
+
+    if (name.includes('ingredient')) {
+      setFormFields({
+        ...formFields,
+        ingredients: new Map([
+          ...ingredients.set(name, [value, isValidIngredient(value)]),
+        ]),
+      });
+      return;
+    }
 
     setFormFields({ ...formFields, [name]: value });
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log({ ...formFields });
+    console.log(formFields);
     resetFormFields();
   };
 
@@ -98,7 +134,7 @@ const AddRecipeForm = () => {
         />
       </div>
 
-      <Ingredients />
+      <Ingredients ingredients={ingredients} handleChange={handleChange} />
 
       {/* <IngredientsActions onAddingIngredient={addIngredientHandler} /> */}
 

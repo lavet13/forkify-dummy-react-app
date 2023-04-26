@@ -1,33 +1,7 @@
-import { useState } from 'react';
 import IngredientItem from './ingredient.component';
 import styles from '../add-recipe-form/add-recipe-form.module.css';
 
-const initialIngredientsCount = 6;
-const initialIngredientsState = new Map(
-  Array.from({ length: initialIngredientsCount }, (_, i) => [
-    `ingredient-${i + 1}`,
-    ['', null],
-  ])
-);
-const Ingredients = () => {
-  const [ingredients, setIngredients] = useState(initialIngredientsState);
-
-  const isValidIngredient = ingredients => {
-    const ingArray = ingredients.split(',');
-
-    return (
-      ingArray.length > 2 && ingArray.every(ing => ing.trim().length !== 0)
-    );
-  };
-
-  const handleChange = event => {
-    const { name, value } = event.target;
-
-    setIngredients(
-      new Map([...ingredients.set(name, [value, isValidIngredient(value)])])
-    );
-  };
-
+const Ingredients = ({ ingredients, handleChange }) => {
   return (
     <div className={styles.upload__column}>
       <h3 className={styles.upload__heading}>Ingredients</h3>
