@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import styles from './add-recipe-form.module.css';
 import icons from '../../resources/icons.svg';
 
@@ -7,17 +7,27 @@ import Ingredients from '../ingredients/ingredients.component';
 import FormInput from '../UI/form-input/form-input.component';
 import IngredientsActions from '../ingredients/ingredients-actions.component';
 
+import { createAction } from '../../utils/reducer/reducer.utils';
+
 const iconUploadCloud = `${icons}#icon-upload-cloud`;
 
 const initialIngredientsCount = 6;
-const initialIngredientsState = new Map(
-  Array.from({ length: initialIngredientsCount }, (_, i) => [
-    `ingredient-${i + 1}`,
-    ['', null],
-  ])
+const initialIngredientsState = Array.from(
+  { length: initialIngredientsCount },
+  (_, i) => ({
+    id: `ingredient-${i + 1}`,
+    value: '',
+    isValid: null,
+  })
 );
 
-const defaultFormFields = {
+export const ADD_RECIPE_ACTION_TYPES = {
+  SET_RECIPE_INFO: 'SET_RECIPE_INFO',
+  SET_INGREDIENTS: 'SET_INGREDIENTS',
+  CLEAR_FORM_FIELDS: 'CLEAR_FORM_FIELDS',
+};
+
+const INITIAL_STATE = {
   title: '',
   sourceUrl: '',
   image: '',
@@ -27,14 +37,23 @@ const defaultFormFields = {
   ingredients: initialIngredientsState,
 };
 
-const isValidIngredient = ingredients => {
-  const ingArray = ingredients.split(',');
+const addRecipeReducer = (state, action) => {
+  const { type, payload } = action;
 
-  return ingArray.length > 2 && ingArray.every(ing => ing.trim().length !== 0);
+  switch (type) {
+    case ADD_RECIPE_ACTION_TYPES.SET_RECIPE_INFO:
+      return { ...state, ...payload };
+    case ADD_RECIPE_ACTION_TYPES.SET_INGREDIENTS:
+      return { ...state, ingredients: payload };
+    case ADD_RECIPE_ACTION_TYPES.CLEAR_FORM_FIELDS:
+      return { ...payload };
+    default:
+      throw new Error(`Unhandled type of ${type} in addRecipeReducer`);
+  }
 };
 
 const AddRecipeForm = () => {
-  const [formFields, setFormFields] = useState(defaultFormFields);
+  const [state, dispatch] = useReducer(addRecipeReducer, INITIAL_STATE);
   const {
     title,
     sourceUrl,
@@ -43,33 +62,45 @@ const AddRecipeForm = () => {
     cookingTime,
     servings,
     ingredients,
-  } = formFields;
+  } = state;
 
-  const resetFormFields = () =>
-    setFormFields({
-      ...defaultFormFields,
-      ingredients: new Map([...initialIngredientsState]),
-    });
+  const setFormFields = formField => {
+    dispatch(createAction(ADD_RECIPE_ACTION_TYPES.SET_RECIPE_INFO, formField));
+  };
+
+  const setIngredients = ingredients => {
+    dispatch(
+      createAction(ADD_RECIPE_ACTION_TYPES.SET_INGREDIENTS, ingredients)
+    );
+  };
+
+  const clearFormFields = formFields => {
+    dispatch(
+      createAction(ADD_RECIPE_ACTION_TYPES.CLEAR_FORM_FIELDS, formFields)
+    );
+  };
+
+  const resetFormFields = () => clearFormFields(INITIAL_STATE);
 
   const handleChange = event => {
     const { name, value } = event.target;
 
-    if (name.includes('ingredient')) {
-      setFormFields({
-        ...formFields,
-        ingredients: new Map([
-          ...ingredients.set(name, [value, isValidIngredient(value)]),
-        ]),
-      });
-      return;
-    }
+    // if (name.includes('ingredient')) {
+    //   setFormFields({
+    //     ...formFields,
+    //     ingredients: new Map([
+    //       ...ingredients.set(name, [value, isValidIngredient(value)]),
+    //     ]),
+    //   });
+    //   return;
+    // }
 
-    setFormFields({ ...formFields, [name]: value });
+    setFormFields({ [name]: value });
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(formFields);
+    console.log(state);
     resetFormFields();
   };
 
@@ -134,7 +165,7 @@ const AddRecipeForm = () => {
         />
       </div>
 
-      <Ingredients ingredients={ingredients} handleChange={handleChange} />
+      <Ingredients ingredients={ingredients} setIngredients={setIngredients} />
 
       {/* <IngredientsActions onAddingIngredient={addIngredientHandler} /> */}
 
