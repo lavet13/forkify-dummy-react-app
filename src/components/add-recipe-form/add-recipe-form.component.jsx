@@ -24,6 +24,7 @@ const initialIngredientsState = Array.from(
 export const ADD_RECIPE_ACTION_TYPES = {
   SET_RECIPE_INFO: 'SET_RECIPE_INFO',
   SET_INGREDIENTS: 'SET_INGREDIENTS',
+  DELETE_INGREDIENT: 'DELETE_INGREDIENT',
   CLEAR_FORM_FIELDS: 'CLEAR_FORM_FIELDS',
 };
 
@@ -45,6 +46,8 @@ const addRecipeReducer = (state, action) => {
       return { ...state, ...payload };
     case ADD_RECIPE_ACTION_TYPES.SET_INGREDIENTS:
       return { ...state, ingredients: payload };
+    case ADD_RECIPE_ACTION_TYPES.DELETE_INGREDIENT:
+      return { ...state, ingredients: payload };
     case ADD_RECIPE_ACTION_TYPES.CLEAR_FORM_FIELDS:
       return { ...payload };
     default:
@@ -64,14 +67,20 @@ const AddRecipeForm = () => {
     ingredients,
   } = state;
 
-  const setFormFields = formField => {
-    dispatch(createAction(ADD_RECIPE_ACTION_TYPES.SET_RECIPE_INFO, formField));
-  };
-
-  const setIngredients = ingredients => {
+  const setIngredientToRecipe = ingredients => {
     dispatch(
       createAction(ADD_RECIPE_ACTION_TYPES.SET_INGREDIENTS, ingredients)
     );
+  };
+
+  const deleteIngredientFromRecipe = ingredients => {
+    dispatch(
+      createAction(ADD_RECIPE_ACTION_TYPES.DELETE_INGREDIENT, ingredients)
+    );
+  };
+
+  const setFormFields = formField => {
+    dispatch(createAction(ADD_RECIPE_ACTION_TYPES.SET_RECIPE_INFO, formField));
   };
 
   const clearFormFields = formFields => {
@@ -84,16 +93,6 @@ const AddRecipeForm = () => {
 
   const handleChange = event => {
     const { name, value } = event.target;
-
-    // if (name.includes('ingredient')) {
-    //   setFormFields({
-    //     ...formFields,
-    //     ingredients: new Map([
-    //       ...ingredients.set(name, [value, isValidIngredient(value)]),
-    //     ]),
-    //   });
-    //   return;
-    // }
 
     setFormFields({ [name]: value });
   };
@@ -165,7 +164,11 @@ const AddRecipeForm = () => {
         />
       </div>
 
-      <Ingredients ingredients={ingredients} setIngredients={setIngredients} />
+      <Ingredients
+        ingredients={ingredients}
+        setIngredientToRecipe={setIngredientToRecipe}
+        deleteIngredientFromRecipe={deleteIngredientFromRecipe}
+      />
 
       {/* <IngredientsActions onAddingIngredient={addIngredientHandler} /> */}
 

@@ -15,35 +15,43 @@ const setIngredient = (ingredients, ingredientToChange) => {
   });
 };
 
+const deleteIngredient = (ingredients, ingredientToDelete) =>
+  ingredients.filter(ingredient => ingredient.id !== ingredientToDelete.id);
+
 const isValidIngredient = ingredients => {
   const ingArray = ingredients.split(',');
 
   return ingArray.length > 2 && ingArray.every(ing => ing.trim().length !== 0);
 };
 
-const Ingredients = ({ ingredients, setIngredients }) => {
+const Ingredients = ({
+  ingredients,
+  setIngredientToRecipe,
+  deleteIngredientFromRecipe,
+}) => {
   const handleChange = event => {
     const { name, value } = event.target;
 
-    setIngredients(setIngredient(ingredients, { id: name, value }));
+    setIngredientToRecipe(setIngredient(ingredients, { id: name, value }));
+  };
+
+  const handleDelete = ingredientToDelete => {
+    deleteIngredientFromRecipe(
+      deleteIngredient(ingredients, ingredientToDelete)
+    );
   };
 
   return (
     <div className={styles.upload__column}>
       <h3 className={styles.upload__heading}>Ingredients</h3>
       {ingredients.length ? (
-        ingredients.map(({ id, value, isValid }, index) => (
+        ingredients.map((ingredient, index) => (
           <IngredientItem
-            key={id}
-            id={id}
-            name={id}
-            title={id}
+            key={ingredient.id}
             index={index}
-            value={value}
-            isValid={isValid}
-            type='text'
-            placeholder="Format: 'Quantity,Unit,Description'"
+            ingredient={ingredient}
             onChange={handleChange}
+            onDelete={handleDelete}
           />
         ))
       ) : (
